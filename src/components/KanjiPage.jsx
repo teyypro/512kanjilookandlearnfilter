@@ -1,29 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-function KanjiPage() {
+function KanjiPage({kanji_info}) {
   const { id } = useParams(); // id từ URL
-  const [kanji, setKanji] = useState(null);
+  const [kanji, setKanji] = useState(null)
 
   useEffect(() => {
-    fetch("/full_kanji_data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        // ép kiểu id sang số
         const numericId = parseInt(id, 10);
-
-        // nếu muốn lấy theo index (id-1)
-        const selected = data[numericId - 1];
-
-        // hoặc nếu muốn lấy theo trường stt
-        // const selected = data.find(item => item.stt === numericId);
-
+        const selected = kanji_info[numericId - 1];
         setKanji(selected);
       })
-      .catch((err) => {
-        console.log("Error loading JSON: ", err);
-      });
-  }, [id]);
 
   if (!kanji) return <div>Loading...</div>;
 
