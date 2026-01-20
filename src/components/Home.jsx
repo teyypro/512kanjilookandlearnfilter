@@ -8,7 +8,10 @@ function Home({kanji_list}) {
       <h1>ListKanjiHere</h1>
       {kanji_list.map((group, group_index) => (
         <div key={group_index}>
-          <h2>Lesson {group_index + 1}</h2>
+          <Link to={`/lesson/${group_index + 1}`}>
+            <h2>Lesson {group_index + 1}</h2>
+          </Link>
+          
           <ul>
             {group.map((word, index) => (
               <li key={index}>

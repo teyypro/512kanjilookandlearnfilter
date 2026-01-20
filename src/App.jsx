@@ -2,6 +2,12 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Home from './components/Home';
 import KanjiPage from './components/KanjiPage';
 import { useState, useEffect } from "react";
+import Lesson from './components/Lesson';
+import GetVoicesList from './components/GetVoicesList';
+
+
+
+
 
 function App(){
   const [kanji_list, setKanjiList] = useState([]);
@@ -27,13 +33,19 @@ function App(){
         console.log("Error loading JSON: ", err);
       });
 
+
+
+    
   }, []);
   return(
     <BrowserRouter>
+      <GetVoicesList>
       <Routes>
         <Route path="/" element = {<Home kanji_list = {kanji_list}/>}/>
         <Route path="kanji/:id" element = {<KanjiPage kanji_info = {kanji}/>}/>
+        <Route path="lesson/:num" element = {<Lesson kanji_info = {kanji}/>}/>
       </Routes>
+      </GetVoicesList>
     </BrowserRouter>
   )
 }

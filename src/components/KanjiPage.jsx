@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import KanjiStrokeAnimator from "./KanjiStrokeAnimator";
+import AudioSpeech from "./AudioSpeech";
 
 function KanjiPage({ kanji_info }) {
   const { id } = useParams(); 
@@ -55,6 +56,7 @@ function KanjiPage({ kanji_info }) {
         {kanji.vocabs.map((v, index) => (
           <li key={index}>
             {v.vocab} ({v.hiragana}, {v.romaji}) - {v.meaning}
+            <AudioSpeech text = {v.hiragana}/>
           </li>
         ))}
       </ul>
