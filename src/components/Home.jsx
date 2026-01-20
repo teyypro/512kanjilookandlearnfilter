@@ -5,6 +5,8 @@ function Home({kanji_list}) {
 
   return (
     <div>
+      <Link to={"setting"}>SettingPge</Link>
+      <Link to={"full_showing"}>show all</Link>
       <h1>ListKanjiHere</h1>
       {kanji_list.map((group, group_index) => (
         <div key={group_index}>

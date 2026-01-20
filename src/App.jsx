@@ -4,6 +4,8 @@ import KanjiPage from './components/KanjiPage';
 import { useState, useEffect } from "react";
 import Lesson from './components/Lesson';
 import GetVoicesList from './components/GetVoicesList';
+import SettingsPage from './components/setting/Setting';
+import FullDisplay from './components/fullshowing/FullDisplay';
 
 
 
@@ -44,6 +46,8 @@ function App(){
         <Route path="/" element = {<Home kanji_list = {kanji_list}/>}/>
         <Route path="kanji/:id" element = {<KanjiPage kanji_info = {kanji}/>}/>
         <Route path="lesson/:num" element = {<Lesson kanji_info = {kanji}/>}/>
+        <Route path="setting" element = {<SettingsPage/>}/>
+        <Route path="full_showing" element = {<FullDisplay kanji_info = {kanji} kanji_list = {kanji_list}/>}/>
       </Routes>
       </GetVoicesList>
     </BrowserRouter>

@@ -1,0 +1,85 @@
+.settings-page {
+  display: flex;
+  height: 100vh; /* Full height */
+  background: #121212; /* Dark theme */
+  color: #e0e0e0;
+  width:100vw;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+  width: 280px;
+  background: #1e1e1e;
+  padding: 30px 20px;
+  border-right: 1px solid #333;
+  overflow-y: auto;
+}
+
+.sidebar h1 {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  color: #ffffff;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.menu-item:hover {
+  background: #2a2a2a;
+}
+
+.menu-item.active {
+  background: #3a3a3a;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.icon {
+  margin-right: 12px;
+  font-size: 1.3rem;
+}
+
+.content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.content h2 {
+  margin-top: 0;
+  color: #ffffff;
+  border-bottom: 1px solid #444;
+  padding-bottom: 12px;
+}
+
+/* Responsive: trên mobile ẩn sidebar hoặc chuyển thành dropdown */
+@media (max-width: 768px) {
+  .settings-page {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #333;
+  }
+}
+
+#voicesetting{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
