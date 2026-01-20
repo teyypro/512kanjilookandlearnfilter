@@ -8,7 +8,7 @@ function Home({ kanji_list }) {
       {/* Navigation Bar */}
       <nav className={styles.nav}>
         <Link to="/" className={styles.navBrand}>
-          Kanji Learning
+          512KanjiLookAndLearn of TeyyPro
         </Link>
 
         <div className={styles.navLinks}>
