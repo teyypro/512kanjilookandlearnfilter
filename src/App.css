@@ -1,42 +1,230 @@
+/* App.css - Global Styles | Light Theme | Psychology-friendly | Main color #176782 */
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: rgb(124 192 231 / 0.15);
+  color: #1e293b;
+  line-height: 1.6;
+  color-scheme: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Root Container */
 #root {
-  max-width: 1280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+      position: relative;
+    width: 100%;
+}
+
+/* Main Layout */
+.app-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header / Navbar (nếu có) */
+header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header .logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #176782;
+  text-decoration: none;
+}
+
+/* Main Content */
+main {
+  flex: 1;
+  padding: 2rem 1.5rem;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+}
+
+/* Footer (nếu có) */
+footer {
+  background: white;
+  border-top: 1px solid #e2e8f0;
+  padding: 2rem 1.5rem;
   text-align: center;
+  color: #64748b;
+  font-size: 0.95rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: #176782;
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
+h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
+h3 { font-size: clamp(1.3rem, 3.5vw, 1.6rem); }
+
+p {
+  color: #334155;
+  margin-bottom: 1.2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+a {
+  color: #176782;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
+a:hover {
+  color: #0f4c6a;
+  text-decoration: underline;
+}
+
+/* Buttons */
+button,
+.btn {
+  background-color: #176782;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+button:hover,
+.btn:hover {
+  background-color: #0f4c6a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(23, 103, 130, 0.2);
+}
+
+button:active,
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: #e2e8f0;
+  color: #334155;
+}
+
+.btn-secondary:hover {
+  background-color: #cbd5e1;
+}
+
+/* Cards */
 .card {
-  padding: 2em;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s;
 }
 
-.read-the-docs {
-  color: #888;
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Forms & Inputs */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  transition: all 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #176782;
+  box-shadow: 0 0 0 3px rgba(23, 103, 130, 0.15);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  main {
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 1rem;
+  }
+
+  .app-container {
+    flex-direction: column;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  button,
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.6rem; }
+}
+
+/* Scrollbar (tùy chọn - đẹp hơn) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #176782;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0f4c6a;
 }

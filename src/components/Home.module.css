@@ -1,0 +1,196 @@
+/* Home.module.css - Chỉ áp dụng cho component Home */
+
+/* Wrapper chính của Home */
+.homeContainer {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 4rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    min-height: 300px;
+    min-width: 42%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+/* Fixed Navigation Bar */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.navBrand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #176782;
+  text-decoration: none;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLinks a {
+  padding: 0.6rem 1.2rem;
+  background-color: #176782;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(23, 103, 130, 0.15);
+}
+
+.navLinks a:hover {
+  background-color: #1a8aa6;
+}
+
+/* Main heading */
+.title {
+  color: #176782;
+  font-size: 2.5rem;
+  margin: 2rem 0 2.5rem;
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* === PHẦN ĐÃ CHỈNH: Lesson Groups hiển thị 2 cột trên desktop, 1 cột trên mobile === */
+.lessonGroupsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); /* Mỗi lessonGroup tối thiểu 500px, tự động chia 2 cột nếu đủ chỗ */
+  gap: 2rem; /* Khoảng cách giữa các lessonGroup */
+}
+
+.lessonGroup {
+    background-color: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    min-height: 300px;
+    min-width: 42%;
+}
+
+.lessonGroup:hover {
+  box-shadow: 0 12px 28px rgba(23, 103, 130, 0.18);
+}
+
+.lessonTitle {
+    color: #000000;
+    font-size: 2rem;
+    transition: color 0.3s ease;
+    padding: 1rem;
+    border-left: 4px solid #000000;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+}
+
+.lessonTitle:hover {
+  color: #1a8aa6;
+}
+
+/* Kanji list bên trong mỗi lessonGroup */
+.kanjiList {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+    gap: 1.25rem;
+}
+
+.kanjiItem {
+  background-color: #f1f5f9;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  transition: all 0.25s ease;
+}
+
+.kanjiItem:hover {
+  background-color: #e0f2fe;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(23, 103, 130, 0.2);
+}
+
+.kanjiLink {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.kanjiLink:hover {
+  color: #176782;
+}
+
+.kanjiLink h2{
+     font-size: 3rem;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+}
+
+.kanjiLink h4{
+      font-size: 1.5rem;
+    font-weight: 200;
+}
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .lessonGroupsContainer {
+    grid-template-columns: 1fr; /* Chỉ 1 cột khi màn hình nhỏ hơn 1024px */
+    gap: 1.5rem;
+  }
+
+  .lessonGroup {
+    min-height: auto; /* Loại bỏ chiều cao cố định trên mobile */
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+
+  .navLinks {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .lessonTitle {
+    font-size: 1.6rem;
+  }
+
+  .kanjiList {
+    grid-template-columns: 1fr;
+  }
+
+  .homeContainer {
+    padding-top: 160px;
+  }
+}

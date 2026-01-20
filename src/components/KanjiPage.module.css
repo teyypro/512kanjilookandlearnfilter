@@ -1,0 +1,171 @@
+/* KanjiPage.module.css - Theme light, psychology-friendly, main color #176782 */
+
+/* Wrapper chính */
+.kanjiContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Tiêu đề chính */
+.mainTitle {
+  color: #176782;
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+
+.hanviet {
+  color: #334155;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+/* Description */
+.description {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2.5rem;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #1e293b;
+  border-left: 5px solid #176782;
+}
+
+/* Section headings */
+.sectionTitle {
+  color: #176782;
+  font-size: 2rem;
+  margin: 2.5rem 0 1.25rem;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+/* Readings */
+.reading {
+  background-color: white;
+  padding: 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.reading .label {
+  color: #64748b;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Vocabulary list */
+.vocabList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.25rem;
+}
+
+.vocabItem {
+  background-color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.vocabItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(23, 103, 130, 0.18);
+}
+
+.vocabText {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #0f766e;
+  margin-bottom: 0.5rem;
+}
+
+.vocabDetails {
+  color: #475569;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.vocabMeaning {
+  color: #176782;
+  font-weight: 500;
+  font-size: 1.15rem;
+}
+
+/* Audio button (giả sử AudioSpeech có class audioBtn) */
+.audioBtn {
+  margin-left: 1rem;
+  background-color: #176782;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.audioBtn:hover {
+  background-color: #1a8aa6;
+}
+
+/* Stroke Animator container */
+.strokeContainer {
+  margin-top: 2rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}
+
+.strokeTitle {
+  color: #176782;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .kanjiContainer {
+    padding: 1.5rem 1rem;
+  }
+
+  .mainTitle {
+    font-size: 2.8rem;
+  }
+
+  .hanviet {
+    font-size: 1.6rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .vocabList {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabItem {
+    padding: 1.25rem;
+  }
+}

@@ -1,10 +1,12 @@
+// KanjiPage.jsx
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import KanjiStrokeAnimator from "./KanjiStrokeAnimator";
 import AudioSpeech from "./AudioSpeech";
+import styles from './KanjiPage.module.css';  // ← Import CSS Modules
 
 function KanjiPage({ kanji_info }) {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [kanji, setKanji] = useState(null);
   const [svgContent, setSvgContent] = useState(null);
 
@@ -31,38 +33,54 @@ function KanjiPage({ kanji_info }) {
             const cleaned = data.slice(svgStartIndex).trim();
             setSvgContent(cleaned);
           } else {
-            setSvgContent(data.trim()); // fallback
+            setSvgContent(data.trim());
           }
         })
         .catch((err) => console.error("Lỗi fetch SVG:", err));
     }
   }, [id, kanji_info]);
 
-  if (!kanji) return <div>Loading...</div>;
+  if (!kanji) return <div className={styles.kanjiContainer}>Loading...</div>;
 
   return (
-    <div>
-      <h1>{kanji.kanji} - {kanji.hanViet}</h1>
-      <p>{kanji.description}</p>
+    <div className={styles.kanjiContainer}>
+      <h1 className={styles.mainTitle}>{kanji.kanji}</h1>
+      <p className={styles.hanviet}>{kanji.hanViet}</p>
 
-      <h2>On readings</h2>
-      <p>{kanji.on.data} ({kanji.on.romaji})</p>
+      {kanji.description && (
+        <p className={styles.description}>{kanji.description}</p>
+      )}
 
-      <h2>Kun readings</h2>
-      <p>{kanji.kun.data} ({kanji.kun.romaji})</p>
+      <h2 className={styles.sectionTitle}>Âm On</h2>
+      <div className={styles.reading}>
+        <span className={styles.label}>Kanji On:</span>
+        {kanji.on?.data} ({kanji.on?.romaji})
+      </div>
 
-      <h2>Vocabulary</h2>
-      <ul>
-        {kanji.vocabs.map((v, index) => (
-          <li key={index}>
-            {v.vocab} ({v.hiragana}, {v.romaji}) - {v.meaning}
-            <AudioSpeech text = {v.hiragana}/>
+      <h2 className={styles.sectionTitle}>Âm Kun</h2>
+      <div className={styles.reading}>
+        <span className={styles.label}>Kanji Kun:</span>
+        {kanji.kun?.data} ({kanji.kun?.romaji})
+      </div>
+
+      <h2 className={styles.sectionTitle}>Từ vựng</h2>
+      <ul className={styles.vocabList}>
+        {kanji.vocabs?.map((v, index) => (
+          <li key={index} className={styles.vocabItem}>
+            <div className={styles.vocabText}>{v.vocab}</div>
+            <div className={styles.vocabDetails}>
+              ({v.hiragana}, {v.romaji})
+            </div>
+            <div className={styles.vocabMeaning}>{v.meaning}</div>
+            <AudioSpeech text={v.hiragana} className={styles.audioBtn} />
           </li>
         ))}
       </ul>
 
-      <h2>Stroke Order</h2>
-      <KanjiStrokeAnimator svgContent={svgContent} />
+      <h2 className={styles.sectionTitle}>Thứ tự nét bút</h2>
+      <div className={styles.strokeContainer}>
+        <KanjiStrokeAnimator svgContent={svgContent} />
+      </div>
     </div>
   );
 }

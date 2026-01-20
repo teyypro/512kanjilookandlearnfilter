@@ -1,0 +1,246 @@
+/* Lesson.module.css - Light Theme | Psychology-friendly | Main color #176782 */
+
+/* Wrapper chính */
+.lessonContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+/* Tiêu đề chính */
+.lessonTitle {
+  color: #176782;
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+}
+
+.totalKanji {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #475569;
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+}
+
+/* Bảng chính */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.table th,
+.table td {
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+
+.table th {
+  background-color: #176782;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+
+/* Cột cụ thể - Điều chỉnh chiều rộng */
+.table th:nth-child(1), /* Kanji */
+.table td:nth-child(1) {
+  width: 10%;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.table th:nth-child(2), /* Hán Việt */
+.table td:nth-child(2) {
+  width: 5%;
+}
+
+.table th:nth-child(3), /* Mô tả */
+.table td:nth-child(3) {
+  width: 10%;
+}
+
+.table th:nth-child(4), /* Từ vựng - rộng nhất */
+.table td:nth-child(4) {
+  width: 75%;  /* ← Cột từ vựng rộng hơn */
+}
+
+/* Kanji to hơn */
+.kanjiCell {
+  font-size: 3.2rem;  /* ← To hơn trước */
+  font-weight: bold;
+  color: #0f766e;
+  line-height: 1;
+}
+
+/* Hán Việt */
+.hanvietCell {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Mô tả */
+.descriptionCell {
+  color: #475569;
+  line-height: 1.6;
+  font-size: 1.15rem;
+}
+
+/* Từ vựng - to hơn */
+.vocabCell ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vocabCell li {
+    margin-block: 1rem;
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 2rem;
+    flex-wrap: wrap;
+    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+    align-items: center;
+}
+
+
+
+.vocabText {
+    font-weight: 700;
+    color: #0f766e;
+    font-size: 2rem;
+}
+
+.vocabDetails {
+  color: #64748b;
+  font-size: 1.2rem;  /* ← To hơn */
+  margin: 0.3rem 0;
+}
+
+.vocabMeaning {
+  color: #176782;
+  font-weight: 600;
+  font-size: 1.3rem;  /* ← To hơn */
+}
+
+/* Audio button */
+.audioBtn {
+  margin-left: 1rem;
+  background-color: #176782;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.audioBtn:hover {
+  background-color: #1a8aa6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .table th,
+  .table td {
+    padding: 1rem 1.2rem;
+  }
+
+  .kanjiCell {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .lessonTitle {
+    font-size: 2.4rem;
+  }
+
+  .table {
+    font-size: 0.95rem;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    display: block;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .table td {
+      display: block;
+    text-align: left;
+    border: none;
+    padding-inline: 10%;
+    position: relative;
+    width: 80% !important;
+  }
+
+  .table td:before {
+      content: attr(data-label);
+    font-weight: bold;
+    color: #176782; 
+    display: block;
+    text-transform: uppercase;
+    font-size: 1rem;
+  }
+
+  .table td[data-label="Kanji"] {
+      font-size: 3.5rem;
+    text-align: center;
+    box-shadow: rgb(0 255 144 / 15%) 0px -50px 36px -28px inset;
+    width: 60% !important;
+    padding-inline: 20%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .kanjiCell {
+    font-size: 3.5rem;
+  }
+
+  .vocabText {
+    font-size: 1.4rem;
+  }
+
+  .vocabDetails {
+    font-size: 1.1rem;
+  }
+
+  .vocabMeaning {
+    font-size: 1.2rem;
+  }
+  
+}
