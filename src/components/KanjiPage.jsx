@@ -1,9 +1,9 @@
-// KanjiPage.jsx
+// src/pages/KanjiPage.jsx
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import KanjiStrokeAnimator from "./KanjiStrokeAnimator";
-import AudioSpeech from "./AudioSpeech";
-import styles from './KanjiPage.module.css';  // ← Import CSS Modules
+import KanjiStrokeAnimator from "../components/KanjiStrokeAnimator";
+import AudioSpeech from "../components/AudioSpeech";
+import styles from "./KanjiPage.module.css";
 
 function KanjiPage({ kanji_info }) {
   const { id } = useParams();
@@ -28,7 +28,7 @@ function KanjiPage({ kanji_info }) {
       fetch(url)
         .then((res) => res.text())
         .then((data) => {
-          const svgStartIndex = data.indexOf('<svg');
+          const svgStartIndex = data.indexOf("<svg");
           if (svgStartIndex !== -1) {
             const cleaned = data.slice(svgStartIndex).trim();
             setSvgContent(cleaned);
@@ -40,47 +40,67 @@ function KanjiPage({ kanji_info }) {
     }
   }, [id, kanji_info]);
 
-  if (!kanji) return <div className={styles.kanjiContainer}>Loading...</div>;
+  if (!kanji) return <div className={styles.kanjiContainer}>Đang tải...</div>;
 
   return (
     <div className={styles.kanjiContainer}>
+      {/* Tiêu đề chính */}
       <h1 className={styles.mainTitle}>{kanji.kanji}</h1>
       <p className={styles.hanviet}>{kanji.hanViet}</p>
 
+      {/* Phần thứ tự nét bút – ĐƯA LÊN ĐẦU */}
+      <section className={styles.strokeSection}>
+        <h2 className={styles.sectionTitle}>Thứ tự nét bút</h2>
+        <div className={styles.strokeContainer}>
+          <KanjiStrokeAnimator svgContent={svgContent} />
+        </div>
+      </section>
+
+      {/* Mô tả (nếu có) */}
       {kanji.description && (
         <p className={styles.description}>{kanji.description}</p>
       )}
 
-      <h2 className={styles.sectionTitle}>Âm On</h2>
-      <div className={styles.reading}>
-        <span className={styles.label}>Kanji On:</span>
-        {kanji.on?.data} ({kanji.on?.romaji})
-      </div>
+      {/* Âm On */}
+      <section className={styles.readingSection}>
+        <h2 className={styles.sectionTitle}>Âm On</h2>
+        <div className={styles.reading}>
+          <span className={styles.label}>Kanji On:</span>
+          {kanji.on?.data} <small>({kanji.on?.romaji})</small>
+        </div>
+      </section>
 
-      <h2 className={styles.sectionTitle}>Âm Kun</h2>
-      <div className={styles.reading}>
-        <span className={styles.label}>Kanji Kun:</span>
-        {kanji.kun?.data} ({kanji.kun?.romaji})
-      </div>
+      {/* Âm Kun */}
+      <section className={styles.readingSection}>
+        <h2 className={styles.sectionTitle}>Âm Kun</h2>
+        <div className={styles.reading}>
+          <span className={styles.label}>Kanji Kun:</span>
+          {kanji.kun?.data} <small>({kanji.kun?.romaji})</small>
+        </div>
+      </section>
 
-      <h2 className={styles.sectionTitle}>Từ vựng</h2>
-      <ul className={styles.vocabList}>
-        {kanji.vocabs?.map((v, index) => (
-          <li key={index} className={styles.vocabItem}>
-            <div className={styles.vocabText}>{v.vocab}</div>
-            <div className={styles.vocabDetails}>
-              ({v.hiragana}, {v.romaji})
-            </div>
-            <div className={styles.vocabMeaning}>{v.meaning}</div>
-            <AudioSpeech text={v.hiragana} className={styles.audioBtn} />
-          </li>
-        ))}
-      </ul>
-
-      <h2 className={styles.sectionTitle}>Thứ tự nét bút</h2>
-      <div className={styles.strokeContainer}>
-        <KanjiStrokeAnimator svgContent={svgContent} />
-      </div>
+      {/* Từ vựng */}
+      <section className={styles.vocabSection}>
+        <h2 className={styles.sectionTitle}>Từ vựng</h2>
+        {kanji.vocabs?.length > 0 ? (
+          <ul className={styles.vocabList}>
+            {kanji.vocabs.map((v, index) => (
+              <li key={index} className={styles.vocabItem}>
+                <div className={styles.vocabText}>{v.vocab}</div>
+                <div className={styles.vocabDetails}>
+                  ({v.hiragana}, {v.romaji})
+                </div>
+                <div className={styles.vocabMeaning}>{v.meaning}</div>
+                <div className={styles.audioWrapper}>
+                  <AudioSpeech text={v.hiragana} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className={styles.noData}>Chưa có từ vựng</p>
+        )}
+      </section>
     </div>
   );
 }

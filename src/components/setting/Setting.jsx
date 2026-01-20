@@ -92,21 +92,21 @@ function AboutSettings() {
   return (
     <div className="settings-section">
       <h2>About</h2>
-      <p>Ứng dụng học Kanji & Từ vựng tiếng Nhật</p>
+      <p>512 Kanji Look and Learn N4 N5</p>
 
       <div className="about-info">
         <h3>Phiên bản</h3>
-        <p>1.0.0 (Beta)</p>
+        <p>🔥🎯🫦🫦🎤💐😏🌍</p>
 
         <h3>Tác giả</h3>
-        <p>Phát triển bởi Ngu Đù</p>
+        <p>Phát triển bởi TeyyPro - 20/01/2026</p>
 
         <h3>Liên hệ</h3>
-        <p>Email: ngu.du@example.com</p>
-        <p>GitHub: github.com/ngudu-dev</p>
+        <p>Sđt: 0973884347</p>
+        <p>GitHub: github.com/bí nặng mật</p>
 
         <h3>Cảm ơn</h3>
-        <p>Cảm ơn bạn đã sử dụng ứng dụng này! Chúc bạn học tốt tiếng Nhật! 🌸</p>
+        <p>Hãy trả mìn 40k để loáy đc full data quyển sách 512 Kanji Look And Learn🌸</p>
       </div>
     </div>
   );

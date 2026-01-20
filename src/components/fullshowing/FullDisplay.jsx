@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react";
 import AudioSpeech from "../AudioSpeech";
 import styles from "./FullDisplay.module.css";
+import VocabExportTextarea from "./VocabExportTextarea";
 
 function FullDisplay({ kanji_info, kanji_list }) {
   const totalLessons = Math.ceil(kanji_info.length / 16);
@@ -177,6 +178,11 @@ function FullDisplay({ kanji_info, kanji_list }) {
           />
           Chỉ hiển thị từ vựng có tất cả kanji đã được học
         </label>
+        <VocabExportTextarea
+          filteredKanji={filteredKanji}
+          showOnlyLearnedVocab={showOnlyLearnedVocab}
+          learnedKanjiSet={learnedKanjiSet}
+        /> 
       </section>
 
       {/* Toggle cột */}
