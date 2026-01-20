@@ -48,6 +48,8 @@ function App(){
         <Route path="lesson/:num" element = {<Lesson kanji_info = {kanji}/>}/>
         <Route path="setting" element = {<SettingsPage/>}/>
         <Route path="full_showing" element = {<FullDisplay kanji_info = {kanji} kanji_list = {kanji_list}/>}/>
+        {/* Catch-all route - đưa mọi đường dẫn không khớp về Home */}
+        <Route path="*" element={<Home kanji_list={kanji_list} />} />
       </Routes>
       </GetVoicesList>
     </BrowserRouter>
