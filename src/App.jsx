@@ -18,7 +18,7 @@ function App(){
   useEffect(() => {
     
     //fetch data for HomePage
-    fetch("/home_kanji_list.json")
+    fetch("home_kanji_list.json")
       .then((res) => res.json())
       .then((data) => setKanjiList(data))
       .catch((err) => {
@@ -26,7 +26,7 @@ function App(){
       });
 
     //fetch data for eachPage
-    fetch("/full_kanji_data.json")
+    fetch("full_kanji_data.json")
       .then((res) => res.json())
       .then((data) => {
         setKanji(data);
