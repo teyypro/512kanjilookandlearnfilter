@@ -28,7 +28,7 @@ function AudioSpeech({ text }) {
       aria-label="Nghe phát âm tiếng Nhật"
       disabled={!text || !speech.voice} // Vô hiệu hóa nếu không có text hoặc voice
     >
-      🎤
+      🔉
     </button>
   );
 }

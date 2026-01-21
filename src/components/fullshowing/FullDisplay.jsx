@@ -313,7 +313,7 @@ function FullDisplay({ kanji_info, kanji_list }) {
                         {displayedVocabs.map((v, i) => (
                           <li key={i} className={styles.vocabItem}>
                             <div className={styles.vocabText}>
-                              <h1>{v.vocab} </h1>({v.hiragana}, {v.romaji}) — {v.meaning}
+                              <h1>{v.vocab} </h1>{v.hiragana}, {v.romaji}<h2>{v.meaning}</h2>
                             </div>
                             <div className={styles.audioWrapper}>
                               <AudioSpeech text={v.hiragana} />
