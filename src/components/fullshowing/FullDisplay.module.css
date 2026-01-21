@@ -165,7 +165,7 @@
 
 .vocabItem:hover{
   border: 1px solid #176782;
-  background-color: rgb(0 0 0 / 6%);
+  background-color: rgb(0 0 0 / 3%);
 }
 .vocabText {
     flex: 1;

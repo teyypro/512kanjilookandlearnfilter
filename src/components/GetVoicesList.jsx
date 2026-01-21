@@ -28,7 +28,7 @@ function GetVoicesList({children}){
     const [speech, setSpeech] = useState({
         voice: null,
         rate: 0.9,
-        pitch: 0.8,
+        pitch: 1,
         volume: 2,
     })
 
