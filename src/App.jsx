@@ -40,7 +40,7 @@ function App(){
     
   }, []);
   return(
-    <BrowserRouter>
+    <BrowserRouter basename="/512kanjilookandlearnfilter">
       <GetVoicesList>
       <Routes>
         <Route path="/" element = {<Home kanji_list = {kanji_list}/>}/>
