@@ -1,196 +1,265 @@
-/* Home.module.css - Chỉ áp dụng cho component Home */
+/* Home.module.css */
 
-/* Wrapper chính của Home */
-.homeContainer {
-    background-color: white;
-    border-radius: 12px;
-    padding: 2rem;
-    margin-top: 4rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    min-height: 300px;
-    min-width: 42%;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 3rem;
-}
-
-/* Fixed Navigation Bar */
+/* ───────────────────────────────────────
+   NAVIGATION BAR (chỉ giữ logo/brand)
+───────────────────────────────────────── */
 .nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   background-color: white;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #e2e8f0;
 }
 
 .navBrand {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 800;
   color: #176782;
   text-decoration: none;
-}
-
-.navLinks {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.navLinks a {
-  padding: 0.6rem 1.2rem;
-  background-color: #176782;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 6px rgba(23, 103, 130, 0.15);
-}
-
-.navLinks a:hover {
-  background-color: #1a8aa6;
-}
-
-/* Main heading */
-.title {
-  color: #176782;
-  font-size: 2.5rem;
-  margin: 2rem 0 2.5rem;
-  text-align: center;
-  font-weight: 700;
   letter-spacing: -0.5px;
 }
 
-/* === PHẦN ĐÃ CHỈNH: Lesson Groups hiển thị 2 cột trên desktop, 1 cột trên mobile === */
-.lessonGroupsContainer {
+/* ───────────────────────────────────────
+   MAIN CONTAINER
+───────────────────────────────────────── */
+.homeContainer {
+ 
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); /* Mỗi lessonGroup tối thiểu 500px, tự động chia 2 cột nếu đủ chỗ */
-  gap: 2rem; /* Khoảng cách giữa các lessonGroup */
+  grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+  gap: 2.5rem;
 }
 
+/* ───────────────────────────────────────
+   LESSON GROUP
+───────────────────────────────────────── */
 .lessonGroup {
-    background-color: white;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
-    transition: all 0.3s ease;
-    border: 1px solid #e2e8f0;
-    min-height: 300px;
-    min-width: 42%;
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  height:fit-content;
+ box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  transition: all 0.3s ease;
+      margin-top: 6rem;
+  /* border: 1px solid #e2e8f0; */
 }
 
 .lessonGroup:hover {
-  box-shadow: 0 12px 28px rgba(23, 103, 130, 0.18);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(23, 103, 130, 0.18);
 }
 
 .lessonTitle {
-    color: #000000;
-    font-size: 2rem;
-    transition: color 0.3s ease;
-    padding: 1rem;
-    border-left: 4px solid #000000;
-    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 1.8rem 0;
+  padding-left: 1rem;
+  border-left: 5px solid #176782;
+  transition: color 0.3s ease;
 }
 
 .lessonTitle:hover {
-  color: #1a8aa6;
+  color: #176782;
 }
 
-/* Kanji list bên trong mỗi lessonGroup */
+/* ───────────────────────────────────────
+   KANJI LIST GRID
+───────────────────────────────────────── */
 .kanjiList {
     list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 1.25rem;
 }
 
 .kanjiItem {
-  background-color: #f1f5f9;
-  border-radius: 10px;
-  padding: 1.25rem 1.5rem;
-  transition: all 0.25s ease;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1.4rem;
+    padding-inline: 5rem;
+    transition: all 0.25s ease;
+    box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    max-width: fit-content;
 }
 
 .kanjiItem:hover {
-  background-color: #e0f2fe;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(23, 103, 130, 0.2);
+  background: #e0f2fe;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(23, 103, 130, 0.15);
 }
 
 .kanjiLink {
-    color: #000000;
-    text-decoration: none;
-    font-weight: 700;
-    transition: color 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  text-decoration: none;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.kanjiLink h2 {
+  font-size: 3.2rem;
+  margin: 0;
+  line-height: 1;
+}
+
+.kanjiLink h4 {
+  font-size: 1.4rem;
+  font-weight: 300;
+  margin: 0;
+  color: #555;
 }
 
 .kanjiLink:hover {
   color: #176782;
 }
 
-.kanjiLink h2{
-     font-size: 3rem;
-    font-weight: 500;
-    padding: 0;
-    margin: 0;
+/* ───────────────────────────────────────
+   FLOATING ACTION BUTTONS (2 nút luôn hiện)
+───────────────────────────────────────── */
+.fabContainer {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  z-index: 999;
 }
 
-.kanjiLink h4{
-      font-size: 1.5rem;
-    font-weight: 200;
+.fab {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 74%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+    text-decoration: none;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, box-shadow, background-color;
 }
 
+.fab:hover {
+  transform: translateY(-6px) scale(1.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Nút Setting */
+.fabSetting {
+  background-color: #64748b;
+}
+
+.fabSetting:hover {
+  background-color: #475569;
+}
+
+/* Nút Show All */
+.fabShowAll {
+  background-color: #176782;
+}
+
+.fabShowAll:hover {
+  background-color: #1a8aa6;
+}
 
 /* Responsive */
-@media (max-width: 1024px) {
-  .lessonGroupsContainer {
-    grid-template-columns: 1fr; /* Chỉ 1 cột khi màn hình nhỏ hơn 1024px */
-    gap: 1.5rem;
+@media (max-width: 768px) {
+  .fabContainer {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    gap: 1rem;
   }
 
-  .lessonGroup {
-    min-height: auto; /* Loại bỏ chiều cao cố định trên mobile */
+  .fab {
+    width: 58px;
+    height: 58px;
+    font-size: 1.6rem;
+  }
+}
+
+/* ───────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .homeContainer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }
 
 @media (max-width: 768px) {
   .nav {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.2rem;
+    padding: 1rem;
   }
 
-  .navLinks {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
+  .navBrand {
+    font-size: 1.4rem;
   }
 
-  .title {
-    font-size: 2.2rem;
-  }
+
 
   .lessonTitle {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
 
   .kanjiList {
-    grid-template-columns: 1fr;
+        display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .homeContainer {
-    padding-top: 160px;
+  .kanjiLink h2 {
+    font-size: 2.8rem;
+  }
+
+  .kanjiLink h4 {
+    font-size: 1.3rem;
+  }
+
+  .kanjiLink{
+
+  }
+  .kanjiItem{
+    min-width: 12rem;
+    padding-inline: 0;
+  }
+  .homeContainer{
+    position: absolute;
+    display: flex;
+    column-gap: 1rem;
+    padding: 1rem;
+    max-width: fit-content;
+  }
+  .lessonGroup{
+    margin-top: 4.5rem;
+    width: max-content;
+    padding: 1rem;
+  }
+  .fabContainer {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    gap: 1rem;
+  }
+
+  .fab {
+    width: 58px;
+    height: 58px;
+    font-size: 1.6rem;
   }
 }

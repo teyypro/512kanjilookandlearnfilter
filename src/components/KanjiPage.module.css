@@ -182,3 +182,124 @@ small {
     font-size: 1.4rem;
   }
 }
+
+/* Thanh navigate fixed */
+.topNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3rem;
+    background: #176782;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 10px;
+    z-index: 1000;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.backBtn {
+    background: none;
+    border: none;
+    color: #e2e8f0;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0 20px 0 0;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.backBtn:hover {
+  opacity: 0.85;
+}
+
+.navTitle {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1.45rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+}
+
+.kanjiTitle {
+  font-size: 2.1rem;
+  font-weight: 700;
+}
+
+.separator {
+  margin: 0 10px;
+  opacity: 0.85;
+}
+
+.hanvietTitle {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+/* Đẩy nội dung chính xuống để không bị che */
+.kanjiContainer {
+  margin-top: 80px;  /* <-- quan trọng: đẩy xuống đủ chỗ cho thanh nav */
+  /* Các thuộc tính cũ vẫn giữ nguyên */
+  width: 80%;
+  margin: 80px auto 40px auto; /* sửa lại margin-top thành 80px */
+  padding: 24px 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+}
+
+/* Responsive cho thanh nav */
+@media (max-width: 768px) {
+  .topNav {
+    height: 60px;
+    padding: 0 16px;
+  }
+
+  .backBtn {
+    font-size: 2.2rem;
+    padding: 0 16px 0 0;
+  }
+
+  .kanjiTitle {
+    font-size: 1.9rem;
+  }
+
+  .hanvietTitle {
+    font-size: 1.3rem;
+  }
+
+  .navTitle {
+    font-size: 1.3rem;
+  }
+
+  .kanjiContainer {
+    margin-top: 76px; /* điều chỉnh nhẹ cho mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .topNav {
+    height: 56px;
+  }
+
+  .backBtn {
+    font-size: 2rem;
+    padding: 0 12px 0 0;
+  }
+
+  .kanjiTitle {
+    font-size: 1.7rem;
+  }
+
+  .hanvietTitle {
+    font-size: 1.2rem;
+  }
+
+  .kanjiContainer {
+    margin-top: 72px;
+  }
+}

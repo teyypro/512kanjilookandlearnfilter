@@ -30,7 +30,7 @@ html, body {
   
   /* Có thể thêm custom properties ở đây */
   --primary-color: #176782;
-  --bg-light: #f8fafc;
+  --bg-light: #ffffff;
 }
 
 body {
@@ -49,16 +49,3 @@ a:hover {
 
 /* ... các style button, h1, media query giữ nguyên ... */
 
-/* Nếu dùng dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #1a1a1a;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #2a2a2a;
-  }
-}

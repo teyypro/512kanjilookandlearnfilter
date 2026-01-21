@@ -32,7 +32,7 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  background-color: white;
+  background-color: transparent;
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 2rem;
@@ -218,7 +218,7 @@
   .table td[data-label="Kanji"] {
       font-size: 3.5rem;
     text-align: center;
-    box-shadow: rgb(0 255 144 / 15%) 0px -50px 36px -28px inset;
+        box-shadow: #4df9fe1f 0px -50px 36px -28px inset;
     width: 60% !important;
     padding-inline: 20%;
     margin: 0;

@@ -82,7 +82,7 @@ function FullDisplay({ kanji_info, kanji_list }) {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>512 Kanji Look And Learn Filter</h1>
+      <h1 className={styles.title}>512 Kanji Look & Learn Filter</h1>
       <p className={styles.subtitle}>Lọc từ vựng theo các Kanji đã học</p>
 
       {/* Phần lọc bài học */}

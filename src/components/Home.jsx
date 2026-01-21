@@ -1,6 +1,6 @@
 // Home.jsx
 import { Link } from "react-router-dom";
-import styles from './Home.module.css';  // ← Import CSS Modules
+import styles from './Home.module.css';
 
 function Home({ kanji_list }) {
   return (
@@ -8,22 +8,16 @@ function Home({ kanji_list }) {
       {/* Navigation Bar */}
       <nav className={styles.nav}>
         <Link to="/" className={styles.navBrand}>
-          512KanjiLookAndLearn of TeyyPro
+         西 512KanjiLook&Learn
         </Link>
-
-        <div className={styles.navLinks}>
-          <Link to="/setting">Setting</Link>
-          <Link to="/full_showing">Show All Kanji</Link>
-        </div>
       </nav>
 
       <div className={styles.homeContainer}>
-
         {kanji_list.map((group, group_index) => (
           <div key={group_index} className={styles.lessonGroup}>
             <Link to={`/lesson/${group_index + 1}`}>
               <h2 className={styles.lessonTitle}>
-                🔥Lesson {group_index + 1}
+                🔥 Lesson {group_index + 1}
               </h2>
             </Link>
 
@@ -34,13 +28,24 @@ function Home({ kanji_list }) {
                     to={`/kanji/${group_index * 16 + index + 1}`}
                     className={styles.kanjiLink}
                   >
-                    <h2>{word.kanji}</h2>  <h4>{word.hanViet}</h4>
+                    <h2>{word.kanji}</h2>
+                    <h4>{word.hanViet}</h4>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
         ))}
+      </div>
+
+      {/* 2 Floating Action Buttons - luôn hiện */}
+      <div className={styles.fabContainer}>
+        <Link to="/setting" className={`${styles.fab} ${styles.fabSetting}`}>
+          ⚙️
+        </Link>
+        <Link to="/full_showing" className={`${styles.fab} ${styles.fabShowAll}`}>
+          📝
+        </Link>
       </div>
     </>
   );

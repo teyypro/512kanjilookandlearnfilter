@@ -1,12 +1,13 @@
 // src/pages/KanjiPage.jsx
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import KanjiStrokeAnimator from "../components/KanjiStrokeAnimator";
 import AudioSpeech from "../components/AudioSpeech";
 import styles from "./KanjiPage.module.css";
 
 function KanjiPage({ kanji_info }) {
   const { id } = useParams();
+  const navigate = useNavigate(); // Để quay về trang chủ
   const [kanji, setKanji] = useState(null);
   const [svgContent, setSvgContent] = useState(null);
 
@@ -24,7 +25,6 @@ function KanjiPage({ kanji_info }) {
     if (selected?.kanji) {
       const hex = hex5(selected.kanji);
       const url = BASE_URL + hex + ".svg";
-
       fetch(url)
         .then((res) => res.text())
         .then((data) => {
@@ -43,65 +43,78 @@ function KanjiPage({ kanji_info }) {
   if (!kanji) return <div className={styles.kanjiContainer}>Đang tải...</div>;
 
   return (
-    <div className={styles.kanjiContainer}>
-      {/* Tiêu đề chính */}
-      <h1 className={styles.mainTitle}>{kanji.kanji}</h1>
-      <p className={styles.hanviet}>{kanji.hanViet}</p>
-
-      {/* Phần thứ tự nét bút – ĐƯA LÊN ĐẦU */}
-      <section className={styles.strokeSection}>
-        <h2 className={styles.sectionTitle}>Thứ tự nét bút</h2>
-        <div className={styles.strokeContainer}>
-          <KanjiStrokeAnimator svgContent={svgContent} />
+    <>
+      {/* Thanh navigate fixed */}
+      <nav className={styles.topNav}>
+        <button 
+          className={styles.backBtn}
+          onClick={() => navigate("/")}
+          aria-label="Quay lại trang chủ"
+        >
+          ❮
+        </button>
+        <div className={styles.navTitle}>
+          <span className={styles.kanjiTitle}>{kanji.kanji}</span>
+          <span className={styles.separator}> - </span>
+          <span className={styles.hanvietTitle}>{kanji.hanViet}</span>
         </div>
-      </section>
+      </nav>
 
-      {/* Mô tả (nếu có) */}
-      {kanji.description && (
-        <p className={styles.description}>{kanji.description}</p>
-      )}
+      {/* Nội dung chính */}
+      <div className={styles.kanjiContainer}>
+        <h1 className={styles.mainTitle}>{kanji.kanji}</h1>
+        <p className={styles.hanviet}>{kanji.hanViet}</p>
 
-      {/* Âm On */}
-      <section className={styles.readingSection}>
-        <h2 className={styles.sectionTitle}>Âm On</h2>
-        <div className={styles.reading}>
-          <span className={styles.label}>Kanji On:</span>
-          {kanji.on?.data} <small>({kanji.on?.romaji})</small>
-        </div>
-      </section>
+        <section className={styles.strokeSection}>
+          <h2 className={styles.sectionTitle}>Thứ tự nét bút</h2>
+          <div className={styles.strokeContainer}>
+            <KanjiStrokeAnimator svgContent={svgContent} />
+          </div>
+        </section>
 
-      {/* Âm Kun */}
-      <section className={styles.readingSection}>
-        <h2 className={styles.sectionTitle}>Âm Kun</h2>
-        <div className={styles.reading}>
-          <span className={styles.label}>Kanji Kun:</span>
-          {kanji.kun?.data} <small>({kanji.kun?.romaji})</small>
-        </div>
-      </section>
-
-      {/* Từ vựng */}
-      <section className={styles.vocabSection}>
-        <h2 className={styles.sectionTitle}>Từ vựng</h2>
-        {kanji.vocabs?.length > 0 ? (
-          <ul className={styles.vocabList}>
-            {kanji.vocabs.map((v, index) => (
-              <li key={index} className={styles.vocabItem}>
-                <div className={styles.vocabText}>{v.vocab}</div>
-                <div className={styles.vocabDetails}>
-                  ({v.hiragana}, {v.romaji})
-                </div>
-                <div className={styles.vocabMeaning}>{v.meaning}</div>
-                <div className={styles.audioWrapper}>
-                  <AudioSpeech text={v.hiragana} />
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className={styles.noData}>Chưa có từ vựng</p>
+        {kanji.description && (
+          <p className={styles.description}>{kanji.description}</p>
         )}
-      </section>
-    </div>
+
+        <section className={styles.readingSection}>
+          <h2 className={styles.sectionTitle}>Âm On</h2>
+          <div className={styles.reading}>
+            <span className={styles.label}>Kanji On:</span>
+            {kanji.on?.data} <small>({kanji.on?.romaji})</small>
+          </div>
+        </section>
+
+        <section className={styles.readingSection}>
+          <h2 className={styles.sectionTitle}>Âm Kun</h2>
+          <div className={styles.reading}>
+            <span className={styles.label}>Kanji Kun:</span>
+            {kanji.kun?.data} <small>({kanji.kun?.romaji})</small>
+          </div>
+        </section>
+
+        <section className={styles.vocabSection}>
+          <h2 className={styles.sectionTitle}>Từ vựng</h2>
+          {kanji.vocabs?.length > 0 ? (
+            <ul className={styles.vocabList}>
+              {kanji.vocabs.map((v, index) => (
+                <li key={index} className={styles.vocabItem}>
+                  <div className={styles.vocabText}>{v.vocab}</div>
+                  <div className={styles.vocabDetails}>
+                    ({v.hiragana}, {v.romaji})
+                  </div>
+                  <div className={styles.vocabMeaning}>{v.meaning}</div>
+                  <div className={styles.audioWrapper}>
+                    <AudioSpeech text={v.hiragana} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className={styles.noData}>Chưa có từ vựng</p>
+          )}
+        </section>
+      </div>
+    </>
   );
 }
 
