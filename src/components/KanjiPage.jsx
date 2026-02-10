@@ -62,8 +62,8 @@ function KanjiPage({ kanji_info }) {
 
       {/* Nội dung chính */}
       <div className={styles.kanjiContainer}>
-        <h1 className={styles.mainTitle}>{kanji.kanji}</h1>
-        <p className={styles.hanviet}>{kanji.hanViet}</p>
+        {/* <h1 className={styles.mainTitle}>{kanji.kanji}</h1>
+        <p className={styles.hanviet}>{kanji.hanViet}</p> */}
 
         <section className={styles.strokeSection}>
           <h2 className={styles.sectionTitle}>Thứ tự nét bút</h2>

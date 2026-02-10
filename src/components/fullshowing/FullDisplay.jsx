@@ -1,8 +1,9 @@
 // src/components/FullDisplay.jsx
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import AudioSpeech from "../AudioSpeech";
 import styles from "./FullDisplay.module.css";
 import VocabExportTextarea from "./VocabExportTextarea";
+import { VoiceContext } from "../GetVoicesList";
 
 function FullDisplay({ kanji_info, kanji_list }) {
   const totalLessons = Math.ceil(kanji_info.length / 16);
@@ -79,6 +80,22 @@ function FullDisplay({ kanji_info, kanji_list }) {
   };
 
   const visibleColumnCount = Object.values(visibleColumns).filter(Boolean).length;
+
+  const { voices, speech, setSpeech } = useContext(VoiceContext);
+  
+  const SpeakOut = (text) => {
+      if (!text) return;
+  
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.voice = speech.voice;
+      utter.rate = speech.rate;
+      utter.pitch = speech.pitch;
+      utter.volume = speech.volume;
+      utter.lang = "ja-JP";
+  
+  
+      speechSynthesis.speak(utter);
+    };
 
   return (
     <div className={styles.container}>
@@ -311,12 +328,9 @@ function FullDisplay({ kanji_info, kanji_list }) {
                     {displayedVocabs.length > 0 ? (
                       <ul className={styles.vocabList}>
                         {displayedVocabs.map((v, i) => (
-                          <li key={i} className={styles.vocabItem}>
+                          <li key={i} className={styles.vocabItem} onClick={()=>SpeakOut(v.hiragana)}>
                             <div className={styles.vocabText}>
                               <h1>{v.vocab} </h1>{v.hiragana}, {v.romaji}<h2>{v.meaning}</h2>
-                            </div>
-                            <div className={styles.audioWrapper}>
-                              <AudioSpeech text={v.hiragana} />
                             </div>
                           </li>
                         ))}

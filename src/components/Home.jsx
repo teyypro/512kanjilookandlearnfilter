@@ -27,7 +27,8 @@ function Home({ kanji_list }) {
                   <Link
                     to={`/kanji/${group_index * 16 + index + 1}`}
                     className={styles.kanjiLink}
-                  >
+                  > 
+                    <h4>{group_index * 16 + index + 1}</h4>
                     <h2>{word.kanji}</h2>
                     <h4>{word.hanViet}</h4>
                   </Link>

@@ -34,8 +34,7 @@ html, body {
 }
 
 body {
-  background-color: var(--bg-light);
-  color: #1e293b;
+      background-color: #1e293b;
 }
 
 a {
