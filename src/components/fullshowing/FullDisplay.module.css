@@ -1,17 +1,28 @@
 /* FullDisplay.module.css - Light Theme | Psychology-friendly | Main color #176782 | Card-based Responsive */
 
 .container {
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  font-family: system-ui, -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #f8fafc;
-  color: #1e293b;
-  min-height: 100vh;
+    max-width: 1080px;
+    margin: 0 auto;
+    font-family: system-ui, -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1e293b;
+    min-height: 100vh;
+}
+
+.reading{
+       position: fixed;
+    align-items: center;
+    font-size: 2.5rem;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    right: 0;
+    top: 0;
+    border-radius: 1rem;
+    background-color: transparent;
 }
 
 .title {
-  color: #176782;
+  color: #ffffff;
   font-size: clamp(1.8rem, 5vw, 2.4rem);
   margin-bottom: 0.5rem;
   font-weight: 700;
@@ -96,17 +107,18 @@
 
 /* === CARD LAYOUT (thay thế table) === */
 .kanjiList {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-block: 1rem;
 }
 
 .kanjiCard {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  padding: 1.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+    background: white;
+    padding-inline: 3.5rem;
+    padding-block: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 
@@ -126,7 +138,7 @@
 
 .fieldLabel {
   font-weight: 600;
-  color: #176782;
+  color: #64748b;
   font-size: 0.95rem;
 }
 
@@ -147,9 +159,12 @@
 }
 
 .vocabList {
-  margin: 0.5rem 0 0 0;
-  padding: 0;
-  list-style: none;
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .vocabItem {
@@ -159,13 +174,19 @@
     padding: 1rem;
     /* padding-block: 0.2rem; */
     border: 1px solid transparent;
-    border-bottom: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
     align-items: center;
 }
 
 .vocabItem:hover{
   border: 1px solid #176782;
   background-color: rgb(0 0 0 / 3%);
+}
+
+.vocaChosen{
+    border: 1px solid #176782;
+  background-color: rgb(0 0 0 / 3%);
+box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
 }
 .vocabText {
     flex: 1;
@@ -224,6 +245,11 @@
      flex-direction: row;
     align-items: flex-start;
     gap: 0.5rem;
+       border-left: 1px solid transparent;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .vocabList {
+    display:block;
   }
 }
 

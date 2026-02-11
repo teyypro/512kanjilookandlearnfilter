@@ -1,5 +1,5 @@
 // src/components/FullDisplay.jsx
-import { useState, useMemo, useContext } from "react";
+import { useState, useMemo, useContext, useEffect } from "react";
 import AudioSpeech from "../AudioSpeech";
 import styles from "./FullDisplay.module.css";
 import VocabExportTextarea from "./VocabExportTextarea";
@@ -11,7 +11,7 @@ function FullDisplay({ kanji_info, kanji_list }) {
   const [filterMode, setFilterMode] = useState(null);
   const [startLesson, setStartLesson] = useState(1);
   const [endLesson, setEndLesson] = useState(totalLessons);
-
+  let allDisplayedVocabs = []
   const [showOnlyLearnedVocab, setShowOnlyLearnedVocab] = useState(false);
 
   const selectedLessonNumbers = useMemo(() => {
@@ -71,6 +71,7 @@ function FullDisplay({ kanji_info, kanji_list }) {
   };
 
   const isVocabFullyLearned = (vocabStr) => {
+
     if (!vocabStr) return true;
     for (const char of vocabStr) {
       if (/[\u3040-\u309F\u30A0-\u30FF々ー\s\-・。、！？]/.test(char)) continue;
@@ -97,8 +98,43 @@ function FullDisplay({ kanji_info, kanji_list }) {
       speechSynthesis.speak(utter);
     };
 
+    const [readWord, setReadWord] = useState(1)
+    const [isReading, setIsReading] = useState(false)
+useEffect(() => {
+  if (!isReading) return;
+
+  const n = allDisplayedVocabs.length;
+  
+  const interval = setInterval(async () => {
+    // Scroll tới từ hiện tại
+        // Tăng chỉ số
+    setReadWord((prev) => (prev >= n ? 0 : prev + 1));
+    document.getElementById(`voca_no_${readWord+1}`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  // Delay 1 giây trước khi tăng chỉ số
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Đọc từ
+    SpeakOut(allDisplayedVocabs[readWord]?.hiragana);
+    
+  
+    
+
+  }, 2000); // Tổng cộng 3 giây: 2 giây interval + 1 giây delay
+
+  return () => clearInterval(interval);
+}, [isReading, readWord, allDisplayedVocabs]);
+
+    let stt = 1
+  
   return (
+    
     <div className={styles.container}>
+      <button 
+      className={styles.reading} 
+      onClick={() => setIsReading((prev) => !prev)}
+      >{isReading ? "⏹️" : "🔉"}</button>
       <h1 className={styles.title}>512 Kanji Look & Learn Filter</h1>
       <p className={styles.subtitle}>Lọc từ vựng theo các Kanji đã học</p>
 
@@ -270,11 +306,12 @@ function FullDisplay({ kanji_info, kanji_list }) {
             Không có kanji nào trong các bài đã chọn.
           </div>
         ) : (
+  
           filteredKanji.map((kanji, index) => {
-            const displayedVocabs = showOnlyLearnedVocab
+           const displayedVocabs = showOnlyLearnedVocab
               ? (kanji.vocabs || []).filter((v) => isVocabFullyLearned(v.vocab))
               : (kanji.vocabs || []);
-
+            allDisplayedVocabs = allDisplayedVocabs.concat(displayedVocabs)
             return (
               <div key={kanji.kanji || index} className={styles.kanjiCard}>
                 <div className={styles.cardHeader}>
@@ -327,13 +364,23 @@ function FullDisplay({ kanji_info, kanji_list }) {
                     <span className={styles.fieldLabel}>Từ vựng</span>
                     {displayedVocabs.length > 0 ? (
                       <ul className={styles.vocabList}>
-                        {displayedVocabs.map((v, i) => (
-                          <li key={i} className={styles.vocabItem} onClick={()=>SpeakOut(v.hiragana)}>
+                        {displayedVocabs.map((v, i) => {
+                          const current_index = stt;
+                          stt++;
+                          return (
+                          <li key={i} 
+                              className={`${styles.vocabItem} ${(current_index == readWord && isReading) ? styles.vocaChosen:''}`} 
+                              onClick={()=>{SpeakOut(v.hiragana)
+                                        setReadWord(current_index )
+                                      console.log(current_index)}}
+                              id={`voca_no_${current_index}`}>
                             <div className={styles.vocabText}>
+                                <h2>{current_index}</h2>
                               <h1>{v.vocab} </h1>{v.hiragana}, {v.romaji}<h2>{v.meaning}</h2>
                             </div>
                           </li>
-                        ))}
+                        )
+                        })}
                       </ul>
                     ) : (
                       <span>—</span>
@@ -347,6 +394,6 @@ function FullDisplay({ kanji_info, kanji_list }) {
       </div>
     </div>
   );
-}
+    }
 
 export default FullDisplay;
