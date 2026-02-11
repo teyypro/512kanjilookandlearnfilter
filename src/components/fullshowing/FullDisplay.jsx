@@ -60,9 +60,9 @@ function FullDisplay({ kanji_info, kanji_list }) {
   const [visibleColumns, setVisibleColumns] = useState({
     kanji: true,
     hanViet: true,
-    description: true,
-    on: false,
-    kun: false,
+    description: false,
+    on: true,
+    kun: true,
     vocab: true,
   });
 
