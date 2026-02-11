@@ -121,7 +121,7 @@ useEffect(() => {
   
     
 
-  }, 2000); // Tổng cộng 3 giây: 2 giây interval + 1 giây delay
+  }, 3000); // Tổng cộng 3 giây: 2 giây interval + 1 giây delay
 
   return () => clearInterval(interval);
 }, [isReading, readWord, allDisplayedVocabs]);
