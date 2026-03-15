@@ -15,7 +15,10 @@
   color: #555;
   margin-bottom: 32px;
 }
-
+.activeFocus {
+  scale:1.05;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
 
 .headerControls{
       display: flex;

@@ -382,7 +382,7 @@ function FullDisplay({ kanji_info, kanji_list }) {
                               <li
                                 key={i}
                                 id={`voca_no_${globalIndex}`}
-                                className={`${styles.vocabItem} ${isActive ? styles.active : ""}`}
+                                className={`${styles.vocabItem} ${isActive ? styles.activeFocus : ""}`}
                                 onClick={() => {
                                   SpeakOut(v.hiragana +","+ (v.samples?.[0]?.jp || "") +","+ (v.samples?.[1]?.jp || "") +","+ (v.samples?.[2]?.jp || ""));
                                   setCurrentReadIndex(globalIndex);
