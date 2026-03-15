@@ -1,18 +1,36 @@
 // src/components/FullDisplay.jsx
-import { useState, useMemo, useContext, useEffect } from "react";
-import AudioSpeech from "../AudioSpeech";
+import { useState, useMemo, useContext, useEffect, useRef } from "react";
 import styles from "./FullDisplay.module.css";
 import VocabExportTextarea from "./VocabExportTextarea";
 import { VoiceContext } from "../GetVoicesList";
 
 function FullDisplay({ kanji_info, kanji_list }) {
   const totalLessons = Math.ceil(kanji_info.length / 16);
+
+  // ─── Bộ lọc & hiển thị ───────────────────────────────────────
   const [selectedLessons, setSelectedLessons] = useState([]);
-  const [filterMode, setFilterMode] = useState(null);
+  const [filterMode, setFilterMode] = useState("none");
   const [startLesson, setStartLesson] = useState(1);
   const [endLesson, setEndLesson] = useState(totalLessons);
-  let allDisplayedVocabs = []
   const [showOnlyLearnedVocab, setShowOnlyLearnedVocab] = useState(false);
+
+  const [visibleColumns, setVisibleColumns] = useState({
+    stt: true,
+    kanji: true,
+    radical: false,
+    stroke: false,
+    hanViet: true,
+    description: false,
+    on: false,
+    kun: false,
+    vocab: true,
+  });
+
+  const [showSettingsPanel, setShowSettingsPanel] = useState(true);
+
+  const toggleColumn = (col) => {
+    setVisibleColumns((prev) => ({ ...prev, [col]: !prev[col] }));
+  };
 
   const selectedLessonNumbers = useMemo(() => {
     if (filterMode === "all") {
@@ -57,21 +75,7 @@ function FullDisplay({ kanji_info, kanji_list }) {
     }, []);
   }, [kanji_info, selectedLessonNumbers]);
 
-  const [visibleColumns, setVisibleColumns] = useState({
-    kanji: true,
-    hanViet: true,
-    description: false,
-    on: true,
-    kun: true,
-    vocab: true,
-  });
-
-  const toggleColumn = (col) => {
-    setVisibleColumns((prev) => ({ ...prev, [col]: !prev[col] }));
-  };
-
   const isVocabFullyLearned = (vocabStr) => {
-
     if (!vocabStr) return true;
     for (const char of vocabStr) {
       if (/[\u3040-\u309F\u30A0-\u30FF々ー\s\-・。、！？]/.test(char)) continue;
@@ -80,320 +84,347 @@ function FullDisplay({ kanji_info, kanji_list }) {
     return true;
   };
 
-  const visibleColumnCount = Object.values(visibleColumns).filter(Boolean).length;
+  // ─── Đọc tự động ─────────────────────────────────────────────
+  const { voices, speech } = useContext(VoiceContext);
+  const [isReading, setIsReading] = useState(false);
+  const [currentReadIndex, setCurrentReadIndex] = useState(0);
+  const allVocabsRef = useRef([]);
 
-  const { voices, speech, setSpeech } = useContext(VoiceContext);
-  
   const SpeakOut = (text) => {
-      if (!text) return;
-  
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.voice = speech.voice;
-      utter.rate = speech.rate;
-      utter.pitch = speech.pitch;
-      utter.volume = speech.volume;
-      utter.lang = "ja-JP";
-  
-  
-      speechSynthesis.speak(utter);
-    };
+    if (!text || !speech?.voice) return;
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.voice = speech.voice;
+    utter.rate = speech.rate ?? 1;
+    utter.pitch = speech.pitch ?? 1;
+    utter.volume = speech.volume ?? 1;
+    utter.lang = "ja-JP";
+    speechSynthesis.speak(utter);
+  };
 
-    const [readWord, setReadWord] = useState(1)
-    const [isReading, setIsReading] = useState(false)
-useEffect(() => {
-  if (!isReading) return;
-
-  const n = allDisplayedVocabs.length;
-  
-  const interval = setInterval(async () => {
-    // Scroll tới từ hiện tại
-        // Tăng chỉ số
-    setReadWord((prev) => (prev >= n ? 0 : prev + 1));
-    document.getElementById(`voca_no_${readWord+1}`)?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
+  useEffect(() => {
+    allVocabsRef.current = [];
+    filteredKanji.forEach((kanji) => {
+      const vocabs = showOnlyLearnedVocab
+        ? (kanji.vocabs || []).filter((v) => isVocabFullyLearned(v.vocab))
+        : (kanji.vocabs || []);
+      allVocabsRef.current.push(...vocabs);
     });
-  // Delay 1 giây trước khi tăng chỉ số
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    // Đọc từ
-    SpeakOut(allDisplayedVocabs[readWord]?.hiragana);
-    
-  
-    
+  }, [filteredKanji, showOnlyLearnedVocab, learnedKanjiSet]);
 
-  }, 3000); // Tổng cộng 3 giây: 2 giây interval + 1 giây delay
+  useEffect(() => {
+    if (!isReading) return;
 
-  return () => clearInterval(interval);
-}, [isReading, readWord, allDisplayedVocabs]);
+    const interval = setInterval(() => {
+      setCurrentReadIndex((prev) => {
+        const next = prev + 1;
+        if (next >= allVocabsRef.current.length) {
+          setIsReading(false);
+          return 0;
+        }
+        const vocab = allVocabsRef.current[next];
+        if (vocab?.hiragana) {
+          SpeakOut(vocab.hiragana);
+        }
+        return next;
+      });
+    }, 3200);
 
-    let stt = 1
-  
+    return () => clearInterval(interval);
+  }, [isReading]);
+
+  useEffect(() => {
+    if (isReading && currentReadIndex > 0) {
+      const elem = document.getElementById(`voca_no_${currentReadIndex}`);
+      elem?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [currentReadIndex, isReading]);
+
   return (
-    
     <div className={styles.container}>
-      <button 
-      className={styles.reading} 
-      onClick={() => setIsReading((prev) => !prev)}
-      >{isReading ? "⏹️" : "🔉"}</button>
-      <h1 className={styles.title}>512 Kanji Look & Learn Filter</h1>
-      <p className={styles.subtitle}>Lọc từ vựng theo các Kanji đã học</p>
+      {/* Sticky Header */}
+      <header className={styles.nav}>
+        <h1 className={styles.navBrand}>512 Kanji Look&Learn Filter</h1>
 
-      {/* Phần lọc bài học */}
-      <section className={styles.filterSection}>
-        <h3 className={styles.sectionTitle}>Lọc bài học</h3>
+        <div className={styles.headerControls}>
+          <button
+            className={`${styles.settingsBtn} ${showSettingsPanel ? styles.active : ""}`}
+            onClick={() => setShowSettingsPanel(!showSettingsPanel)}
+            title="Cài đặt lọc & hiển thị"
+          >
+            ⚙️
+          </button>
 
-        <div className={styles.filterOptions}>
-          <label className={styles.radioLabel}>
-            <input
-              type="radio"
-              name="filterMode"
-              value="all"
-              checked={filterMode === "all"}
-              onChange={() => setFilterMode("all")}
-              className={styles.radio}
-            />
-            Hiển thị tất cả bài
-          </label>
-
-          <label className={styles.radioLabel}>
-            <input
-              type="radio"
-              name="filterMode"
-              value="range"
-              checked={filterMode === "range"}
-              onChange={() => setFilterMode("range")}
-              className={styles.radio}
-            />
-            Từ bài
-            <input
-              type="number"
-              min="1"
-              max={totalLessons}
-              value={startLesson}
-              onChange={(e) => setStartLesson(Math.max(1, parseInt(e.target.value) || 1))}
-              className={styles.numberInput}
-            />
-            đến bài
-            <input
-              type="number"
-              min="1"
-              max={totalLessons}
-              value={endLesson}
-              onChange={(e) => setEndLesson(Math.min(totalLessons, parseInt(e.target.value) || totalLessons))}
-              className={styles.numberInput}
-            />
-          </label>
-
-          <label className={styles.radioLabel}>
-            <input
-              type="radio"
-              name="filterMode"
-              value="custom"
-              checked={filterMode === "custom"}
-              onChange={() => setFilterMode("custom")}
-              className={styles.radio}
-            />
-            Chọn bài cụ thể
-          </label>
+          <button
+            className={`${styles.readingBtn} ${isReading ? styles.readingActive : ""}`}
+            onClick={() => {
+              setIsReading((prev) => {
+                if (!prev) setCurrentReadIndex(0);
+                return !prev;
+              });
+            }}
+          >
+            {isReading ? "⏹" : "▶️"}
+          </button>
         </div>
+      </header>
 
-        {filterMode === "custom" && (
-          <div className={styles.customLessons}>
-            {Array.from({ length: totalLessons }, (_, i) => i + 1).map((lessonNum) => (
-              <label key={lessonNum} className={styles.checkboxLabel}>
+      {/* Settings Drawer */}
+  
+        {/* // <div className={styles.settingsOverlay} onClick={() => setShowSettingsPanel(false)}> */}
+          <div className={styles.settingsPanel} onClick={(e) => e.stopPropagation()} style={{ 
+            transform: `translate(-50%,${showSettingsPanel ? "0" : "200%"})`,
+            scale: `${showSettingsPanel ? "1" : "0.5"}` }}>
+            <div className={styles.panelchoicer}>
+              <h3>Cài đặt</h3>
+              <button className={styles.closeBtn} onClick={() => setShowSettingsPanel(false)}>
+                ×
+              </button>
+            </div>
+
+            {/* Lọc bài học */}
+            <section className={styles.section}>
+              <h4>Lọc bài học</h4>
+              <div className={styles.filterOptions}>
+                <label>
+                  <input
+                    type="radio"
+                    name="filterMode"
+                    value="all"
+                    checked={filterMode === "all"}
+                    onChange={() => setFilterMode("all")}
+                  />
+                  Tất cả
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="filterMode"
+                    value="range"
+                    checked={filterMode === "range"}
+                    onChange={() => setFilterMode("range")}
+                  />
+                  Từ bài
+                  <input
+                    type="number"
+                    min={1}
+                    max={totalLessons}
+                    value={startLesson}
+                    onChange={(e) => setStartLesson(Math.max(1, Number(e.target.value) || 1))}
+                  />
+                  đến
+                  <input
+                    type="number"
+                    min={1}
+                    max={totalLessons}
+                    value={endLesson}
+                    onChange={(e) => setEndLesson(Math.min(totalLessons, Number(e.target.value) || totalLessons))}
+                  />
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="filterMode"
+                    value="custom"
+                    checked={filterMode === "custom"}
+                    onChange={() => setFilterMode("custom")}
+                  />
+                  Chọn bài
+                </label>
+              </div>
+
+              {filterMode === "custom" && (
+                <div className={styles.customGrid}>
+                  {Array.from({ length: totalLessons }, (_, i) => i + 1).map((n) => (
+                    <label key={n}>
+                      <input
+                        type="checkbox"
+                        checked={selectedLessons.includes(n)}
+                        onChange={(e) =>
+                          setSelectedLessons((prev) =>
+                            e.target.checked ? [...prev, n] : prev.filter((x) => x !== n)
+                          )
+                        }
+                      />
+                      {n}
+                    </label>
+                  ))}
+                </div>
+              )}
+            </section>
+
+            {/* Tùy chọn hiển thị */}
+            <section className={styles.section}>
+              <label className={styles.checkboxLabel}>
                 <input
                   type="checkbox"
-                  checked={selectedLessons.includes(lessonNum)}
-                  onChange={(e) => {
-                    setSelectedLessons((prev) =>
-                      e.target.checked
-                        ? [...prev, lessonNum]
-                        : prev.filter((n) => n !== lessonNum)
-                    );
-                  }}
-                  className={styles.checkbox}
+                  checked={showOnlyLearnedVocab}
+                  onChange={(e) => setShowOnlyLearnedVocab(e.target.checked)}
                 />
-                Bài {lessonNum}
+                Chỉ hiện từ vựng đã học hết Kanji
               </label>
-            ))}
+
+              <VocabExportTextarea
+                filteredKanji={filteredKanji}
+                showOnlyLearnedVocab={showOnlyLearnedVocab}
+                learnedKanjiSet={learnedKanjiSet}
+              />
+            </section>
+
+            {/* Hiện/Ẩn cột */}
+            <section className={styles.section}>
+              <h4>Hiện/Ẩn cột</h4>
+              <div className={styles.columnToggles}>
+                {Object.keys(visibleColumns).map((col) => (
+                  <label key={col} className={styles.checkboxLabel}>
+                    <input
+                      type="checkbox"
+                      checked={visibleColumns[col]}
+                      onChange={() => toggleColumn(col)}
+                    />
+                    {col === "stt" ? "STT" : col === "hanViet" ? "Hán Việt" : col.charAt(0).toUpperCase() + col.slice(1)}
+                  </label>
+                ))}
+              </div>
+            </section>
           </div>
-        )}
-      </section>
+        {/* // </div> */}
 
-      {/* Checkbox chỉ hiển thị từ đã học */}
-      <section className={styles.optionSection}>
-        <label className={styles.checkboxLabel}>
-          <input
-            type="checkbox"
-            checked={showOnlyLearnedVocab}
-            onChange={(e) => setShowOnlyLearnedVocab(e.target.checked)}
-            className={styles.checkbox}
-          />
-          Chỉ hiển thị từ vựng có tất cả kanji đã được học
-        </label>
-        <VocabExportTextarea
-          filteredKanji={filteredKanji}
-          showOnlyLearnedVocab={showOnlyLearnedVocab}
-          learnedKanjiSet={learnedKanjiSet}
-        /> 
-      </section>
 
-      {/* Toggle cột */}
-      <section className={styles.optionSection}>
-        <h3 className={styles.sectionTitle}>Ẩn / Hiện cột</h3>
-        <div className={styles.columnToggles}>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={visibleColumns.kanji}
-              onChange={() => toggleColumn("kanji")}
-              className={styles.checkbox}
-            />
-            Kanji
-          </label>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={visibleColumns.hanViet}
-              onChange={() => toggleColumn("hanViet")}
-              className={styles.checkbox}
-            />
-            Hán Việt
-          </label>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={visibleColumns.description}
-              onChange={() => toggleColumn("description")}
-              className={styles.checkbox}
-            />
-            Mô tả
-          </label>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={visibleColumns.on}
-              onChange={() => toggleColumn("on")}
-              className={styles.checkbox}
-            />
-            Âm On
-          </label>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={visibleColumns.kun}
-              onChange={() => toggleColumn("kun")}
-              className={styles.checkbox}
-            />
-            Âm Kun
-          </label>
-          <label className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={visibleColumns.vocab}
-              onChange={() => toggleColumn("vocab")}
-              className={styles.checkbox}
-            />
-            Từ vựng
-          </label>
-        </div>
-      </section>
+      {/* Nội dung chính */}
+      <main className={styles.mainContent}>
+        <div className={styles.kanjiGrid}>
+          {filteredKanji.length === 0 ? (
+            <div className={styles.empty}>EMPTY *☆[]~(￣▽￣)~*</div>
+          ) : (
+            filteredKanji.map((kanji, idx) => {
+              const displayedVocabs = showOnlyLearnedVocab
+                ? (kanji.vocabs || []).filter((v) => isVocabFullyLearned(v.vocab))
+                : (kanji.vocabs || []);
 
-      {/* Danh sách kanji - dùng div thay table */}
-      <div className={styles.kanjiList}>
-        {filteredKanji.length === 0 ? (
-          <div className={styles.emptyMessage}>
-            Không có kanji nào trong các bài đã chọn.
-          </div>
-        ) : (
-  
-          filteredKanji.map((kanji, index) => {
-           const displayedVocabs = showOnlyLearnedVocab
-              ? (kanji.vocabs || []).filter((v) => isVocabFullyLearned(v.vocab))
-              : (kanji.vocabs || []);
-            allDisplayedVocabs = allDisplayedVocabs.concat(displayedVocabs)
-            return (
-              <div key={kanji.kanji || index} className={styles.kanjiCard}>
-                <div className={styles.cardHeader}>
-                  {visibleColumns.kanji && (
-                    <div className={`${styles.cardField} ${styles.kanjiField}`}>
-                      <span className={styles.fieldLabel}>Kanji</span>
-                      <span className={styles.kanjiValue}>{kanji.kanji || "—"}</span>
-                    </div>
-                  )}
-
-                  {visibleColumns.hanViet && (
-                    <div className={styles.cardField}>
-                      <span className={styles.fieldLabel}>Hán Việt</span>
-                      <span>{kanji.hanViet || "—"}</span>
-                    </div>
-                  )}
-
-                  {visibleColumns.description && (
-                    <div className={styles.cardField}>
-                      <span className={styles.fieldLabel}>Mô tả</span>
-                      <span>{kanji.description || "—"}</span>
-                    </div>
-                  )}
-
-                  {visibleColumns.on && (
-                    <div className={styles.cardField}>
-                      <span className={styles.fieldLabel}>Âm On</span>
-                      <div>
-                        {kanji.on?.data || "—"}
-                        <br />
-                        <small className={styles.romaji}>({kanji.on?.romaji || "—"})</small>
+              return (
+                <div key={kanji.kanji || idx} className={styles.kanjiCard}>
+                  <div className={styles.cardHeader}>
+                    {visibleColumns.stt && (
+                      <div className={styles.cardField}>
+                        <span className={styles.label}>STT</span>
+                        <strong>{kanji.stt}</strong>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {visibleColumns.kun && (
-                    <div className={styles.cardField}>
-                      <span className={styles.fieldLabel}>Âm Kun</span>
-                      <div>
-                        {kanji.kun?.data || "—"}
-                        <br />
-                        <small className={styles.romaji}>({kanji.kun?.romaji || "—"})</small>
+                    {visibleColumns.kanji && (
+                      <div className={`${styles.cardField} ${styles.kanjiMain}`}>
+                        <span className={styles.label}>Kanji</span>
+                        <div className={styles.kanjiBig}>{kanji.kanji || "—"}</div>
                       </div>
+                    )}
+
+                    {visibleColumns.radical && (
+                      <div className={styles.cardField}>
+                        <span className={styles.label}>Bộ thủ</span>
+                        <span>{kanji.radical || "—"}</span>
+                      </div>
+                    )}
+
+                    {visibleColumns.stroke && (
+                      <div className={styles.cardField}>
+                        <span className={styles.label}>Nét</span>
+                        <span>{kanji.stroke || "—"}</span>
+                      </div>
+                    )}
+
+                    {visibleColumns.hanViet && (
+                      <div className={styles.cardField}>
+                        <span className={styles.label}>Hán Việt</span>
+                        <span>{kanji.hanViet || "—"}</span>
+                      </div>
+                    )}
+
+                    {visibleColumns.description && (
+                      <div className={styles.cardField}>
+                        <span className={styles.label}>Ý nghĩa</span>
+                        <span>{kanji.description || "—"}</span>
+                      </div>
+                    )}
+
+                    {visibleColumns.on && (
+                      <div className={styles.cardField}>
+                        <span className={styles.label}>On'yomi</span>
+                        <div>
+                          {kanji.on?.length > 0
+                            ? kanji.on.map((o) => `${o.jp} (${o.romaji})`).join("、 ")
+                            : "—"}
+                        </div>
+                      </div>
+                    )}
+
+                    {visibleColumns.kun && (
+                      <div className={styles.cardField}>
+                        <span className={styles.label}>Kun'yomi</span>
+                        <div>
+                          {kanji.kun?.length > 0
+                            ? kanji.kun.map((k) => `${k.jp} (${k.romaji})`).join("、 ")
+                            : "—"}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {visibleColumns.vocab && (
+                    <div className={styles.vocabSection}>
+                      <h4>Từ vựng</h4>
+                      {displayedVocabs.length > 0 ? (
+                        <ul className={styles.vocabList}>
+                          {displayedVocabs.map((v, i) => {
+                            const globalIndex = allVocabsRef.current.indexOf(v);
+                            const isActive = isReading && globalIndex === currentReadIndex;
+
+                            return (
+                              <li
+                                key={i}
+                                id={`voca_no_${globalIndex}`}
+                                className={`${styles.vocabItem} ${isActive ? styles.active : ""}`}
+                                onClick={() => {
+                                  SpeakOut(v.hiragana +","+ (v.samples?.[0]?.jp || "") +","+ (v.samples?.[1]?.jp || "") +","+ (v.samples?.[2]?.jp || ""));
+                                  setCurrentReadIndex(globalIndex);
+                                }}
+                              >
+                                <div className={styles.vocabMain}>
+                                  <strong className={styles.vocabWord}>{v.vocab}</strong>
+                                  <span className={styles.hiragana}>{v.hiragana}</span>
+                                  <span className={styles.romaji}> / {v.romaji}</span>
+                                </div>
+                                <div className={styles.meaning}>{v.meaning}</div>
+
+                                {v.samples?.length > 0 && (
+                                  <div className={styles.samples}>
+                                    Ví dụ:
+                                    <ul>
+                                      {v.samples.map((s, si) => (
+                                        <li key={si}>
+                                          <span className={styles.jpEx}>{s.jp}</span>
+                                          <span className={styles.vnEx}>{s.vn}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      ) : (
+                        <span className={styles.noData}>—</span>
+                      )}
                     </div>
                   )}
                 </div>
-
-                {visibleColumns.vocab && (
-                  <div className={styles.cardField}>
-                    <span className={styles.fieldLabel}>Từ vựng</span>
-                    {displayedVocabs.length > 0 ? (
-                      <ul className={styles.vocabList}>
-                        {displayedVocabs.map((v, i) => {
-                          const current_index = stt;
-                          stt++;
-                          return (
-                          <li key={i} 
-                              className={`${styles.vocabItem} ${(current_index == readWord && isReading) ? styles.vocaChosen:''}`} 
-                              onClick={()=>{SpeakOut(v.hiragana)
-                                        setReadWord(current_index )
-                                      console.log(current_index)}}
-                              id={`voca_no_${current_index}`}>
-                            <div className={styles.vocabText}>
-                                <h2>{current_index}</h2>
-                              <h1>{v.vocab} </h1>{v.hiragana}, {v.romaji}<h2>{v.meaning}</h2>
-                            </div>
-                          </li>
-                        )
-                        })}
-                      </ul>
-                    ) : (
-                      <span>—</span>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })
-        )}
-      </div>
+              );
+            })
+          )}
+        </div>
+      </main>
     </div>
   );
-    }
+}
 
 export default FullDisplay;

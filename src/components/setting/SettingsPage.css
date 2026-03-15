@@ -1,105 +1,145 @@
-/* SettingsPage.css */
+/* SettingsPage.css - Chỉ nền trắng + chữ đen */
 
 .settings-page {
   display: flex;
   min-height: 100vh;
-  background-color: #f8fafc;
-  color: #1e293b;
+  background: #ffffff;
+  color: #000000;
+  padding: 3rem;
 }
 
 .sidebar {
-  width: 280px;
-  background: white;
-  border-right: 1px solid #e2e8f0;
-  padding: 2rem 1.5rem;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  width: 260px;
+  background: #ffffff;
+  border-right: 1px solid #000000;
+  padding:0;
+  flex-shrink: 0;
 }
 
 .sidebar h1 {
-  font-size: 1.8rem;
-  color: #176782;
-  margin-bottom: 2rem;
+  font-size: 1.9rem;
+  margin: 0 0 2rem 0;
+  color: #000000;
 }
 
 .menu {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 1rem 1.2rem;
-  margin-bottom: 0.5rem;
-  border-radius: 8px;
+  padding: 0.95rem 1.1rem;
+  margin-bottom: 0.4rem;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 1.1rem;
-  color: #334155;
-  transition: all 0.2s;
+  color: #000000;
+  font-size: 1.05rem;
 }
 
 .menu-item:hover {
-  background: #f1f5f9;
+  background: #f0f0f0; /* vẫn giữ nhẹ để biết hover, nhưng vẫn gần trắng */
 }
 
 .menu-item.active {
-  background: #176782;
-  color: white;
-  font-weight: 600;
+  background: #e0e0e0;
+  font-weight: bold;
 }
 
 .content {
   flex: 1;
-  padding: 2.5rem;
+  padding: 0;
   background: #ffffff;
 }
 
 .settings-section {
-  max-width: 700px;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .settings-section h2 {
-  color: #176782;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.85rem;
+  margin: 0 0 1.6rem 0;
+  color: #000000;
+}
+
+.settings-section > p {
+  color: #000000;
+  margin-bottom: 2rem;
 }
 
 .setting-item {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 }
 
 .setting-item label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #334155;
+  margin-bottom: 0.6rem;
+  color: #000000;
+  font-size: 1.05rem;
 }
 
 .setting-item select,
 .setting-item input[type="range"] {
   width: 100%;
-  padding: 0.6rem;
-  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
+  padding: 0.7rem;
   border-radius: 6px;
   font-size: 1rem;
 }
 
-.setting-item input[type="range"] {
-  margin-top: 0.5rem;
+.setting-item select option {
+  background: #ffffff;
+  color: #000000;
 }
 
+.setting-item input[type="range"] {
+  margin-top: 0.6rem;
+  accent-color: #000000; /* thanh range màu đen */
+}
+
+/* Test voice */
 .test-voice {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: #f8fafc;
-  border-radius: 12px;
+  margin-top: 2.5rem;
+  padding: 1.8rem;
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
   text-align: center;
 }
 
-.about-info h3 {
-  color: #176782;
-  margin: 1.5rem 0 0.5rem;
+.test-voice h3,
+.test-voice p {
+  color: #000000;
+  margin: 0.8rem 0;
+}
+
+/* About */
+.about-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.info-row {
+  padding: 1.2rem;
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+.info-row h3 {
+  margin: 0 0 0.6rem 0;
+  color: #000000;
+}
+
+.info-row p {
+  margin: 0.3rem 0;
+  color: #000000;
 }
 
 /* Responsive */
@@ -109,24 +149,24 @@
   }
 
   .sidebar {
-    width: 100%;
     border-right: none;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #000000;
     padding: 1.5rem;
   }
 
   .menu {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+        display: flex;
+        justify-content: center;
+        gap: 0.8rem;
+        flex-wrap: nowrap;
+        flex-direction: row;
   }
 
   .menu-item {
-    padding: 0.8rem 1.2rem;
+    padding: 0.7rem 1.3rem;
   }
 
   .content {
-    padding: 1.5rem;
+    padding: 1.8rem 1.2rem;
   }
 }

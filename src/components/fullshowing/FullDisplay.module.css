@@ -1,272 +1,407 @@
-/* FullDisplay.module.css - Light Theme | Psychology-friendly | Main color #176782 | Card-based Responsive */
-
 .container {
-    max-width: 1080px;
-    margin: 0 auto;
-    font-family: system-ui, -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: #1e293b;
-    min-height: 100vh;
-}
-
-.reading{
-       position: fixed;
-    align-items: center;
-    font-size: 2.5rem;
-    padding: 0;
-    border: 0;
-    cursor: pointer;
-    right: 0;
-    top: 0;
-    border-radius: 1rem;
-    background-color: transparent;
+  background: #ffffff;
+  color: #222222;
+  padding: 24px;
+  font-family: -apple-system, BlinkMacOSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .title {
-  color: #ffffff;
-  font-size: clamp(1.8rem, 5vw, 2.4rem);
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-  text-align: center;
+  font-size: 2.4rem;
+  margin: 0 0 8px;
+  color: #111;
 }
 
 .subtitle {
-  color: #64748b;
-  font-size: clamp(1rem, 3vw, 1.1rem);
-  margin-bottom: 2rem;
-  text-align: center;
+  color: #555;
+  margin-bottom: 32px;
 }
 
-.filterSection,
-.optionSection {
+
+.headerControls{
+      display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.headerControls button {
+      width: 3rem;
+    height: 3rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform, box-shadow, background-color;
+    background-color: transparent;
+    outline: 0;
+    border:0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+
+.headerControls button:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  border-radius: 2rem;
+
+}
+.readingActive {
+  background: #ff4d4d !important;
+  color: white;
+  border-color: #ff4d4d;
+}
+
+.kanjiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+.kanjiCard {
   background: white;
+  border: 1px solid #e0e0e0;
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: box-shadow 0.2s;
 }
 
-.sectionTitle {
-  color: #176782;
-  font-size: clamp(1.25rem, 4vw, 1.4rem);
-  margin: 0 0 1rem 0;
-  font-weight: 600;
+.kanjiCard:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
 
-.filterOptions {
+.cardHeader {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 16px 24px;
+  margin-bottom: 20px;
+}
+
+.cardField {
+  font-size: 0.95rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.82rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.kanjiMain {
+  grid-column: span 2;
+}
+
+.kanjiBig {
+  font-size: 3.6rem;
+  line-height: 1;
+  font-weight: bold;
+  color: #000;
+}
+
+.vocabSection {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.vocabList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.vocabItem {
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.vocabItem:hover {
+box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+.active {
+  background: #000000 !important;
+}
+
+.vocabMain {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.radioLabel,
+.vocabNo {
+  color: #888;
+  font-size: 0.9rem;
+  min-width: 32px;
+}
+
+.vocabWord {
+  font-size: 1.6rem;
+  color: #000;
+}
+
+.hiragana {
+  font-size: 1.15rem;
+  color: #d63384;
+}
+
+.romaji {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.meaning {
+  margin-top: 6px;
+  color: #333;
+}
+
+.samples {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.samples ul {
+  margin: 6px 0 0 16px;
+  padding: 0;
+}
+
+.jpEx {
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+  margin-right: 8px;
+}
+
+.vnEx {
+  color: #0066cc;
+}
+
+/* Các phần filter, toggle... */
+.filterSection, .optionSection {
+  margin-bottom: 32px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.filterOptions label, .columnToggles label {
+  margin-right: 24px;
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.customGrid {
+    display: flex;
+    gap: 7px;
+    font-size: 16px;
+    font-weight: bold;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffffa1;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 0.5rem 0.5rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    flex-direction: row;
+    justify-content: space-between;
+    backdrop-filter: blur(2px);
+}
+
+
+
+.navBrand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #000000;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.headerRight {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.controlBtn,
+.readingBtn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.15s;
+}
+
+.controlBtn:hover,
+.readingBtn:hover {
+  background: #e9ecef;
+}
+
+.controlBtn.active {
+  background: #ffe066;
+  border-color: #ffc107;
+  font-weight: 500;
+}
+
+.readingActive {
+  background: #ff4d4d !important;
+  color: white;
+  border-color: #ff4d4d;
+}
+
+/* Settings Panel */
+
+
+.settingsPanel {
+    width: 50vw;
+    max-width: 90vw;
+    height: fit-content;
+    position: fixed;
+    left: 50%;
+    bottom: 1rem;
+    border-radius: 2rem;
+    transform: translate(-50%,0);
+    background: transparent;
+    overflow-y: auto;
+    padding: 24px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    transition:0.2s ease-in-out;
+    
+backdrop-filter: blur(4px);
+}
+
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+.filterOptions label,
 .checkboxLabel {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  color: #334155;
+  gap: 0.9rem;
+  font-size: 1.15rem;
+  margin: 0.9rem 0;
   cursor: pointer;
   user-select: none;
 }
 
-.radio,
-.checkbox {
-  accent-color: #176782;
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
+.filterOptions input[type="radio"],
+.checkboxLabel input[type="checkbox"], .customGrid input[type="checkbox"]{
+  width: 1.3rem;
+  height: 1.3rem;
+  accent-color: #000000;
+  cursor: pointer;
 }
 
-.numberInput {
-  width: 70px;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.2s;
-}
-
-.numberInput:focus {
-  border-color: #176782;
-  box-shadow: 0 0 0 3px rgba(23, 103, 130, 0.15);
-}
-
-.customLessons {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-}
-
-.columnToggles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem 2rem;
-}
-
-/* === CARD LAYOUT (thay thế table) === */
-.kanjiList {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding-block: 1rem;
-}
-
-.kanjiCard {
-    background: white;
-    padding-inline: 3.5rem;
-    padding-block: 2rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-}
-
-
-
-.cardHeader {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.25rem 2rem;
-  margin-bottom: 1.25rem;
-}
-
-.cardField {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.fieldLabel {
-  font-weight: 600;
-  color: #64748b;
-  font-size: 0.95rem;
-}
-
-.kanjiField {
-  text-align: center;
-}
-
-.kanjiValue {
-  font-size: 3.2rem;
-  font-weight: bold;
-  color: #0f172a;
-  line-height: 1;
-}
-
-.romaji {
-  color: #64748b;
-  font-size: 0.85rem;
-}
-
-.vocabList {
-    margin: 0.5rem 0 0 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.vocabItem {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    padding: 1rem;
-    /* padding-block: 0.2rem; */
-    border: 1px solid transparent;
-    border-left: 1px solid #e0e0e0;
+.customGrid label{
+      display: flex;
     align-items: center;
+    gap: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 0.5rem;
+    padding: 0.2rem;
 }
-
-.vocabItem:hover{
-  border: 1px solid #176782;
-  background-color: rgb(0 0 0 / 3%);
-}
-
-.vocaChosen{
-    border: 1px solid #176782;
-  background-color: rgb(0 0 0 / 3%);
-box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
-}
-.vocabText {
-    flex: 1;
-    line-height: 1;
-    min-width: 200px;
-    margin-block: 0.2rem;
-    color: #64748b;
-}
-
-.vocabText h1{
-    margin: 0;
-    margin-bottom: 1rem;
-    color: #213d80;
-    font-weight: 400;
-    font-size: 2rem;
-}
-.vocabText h2{
-    margin: 0;
-    margin-top: 0.3rem;
-    color: #000000;
-    font-weight: 200;
-    font-size: 1rem;
-}
-
-.audioWrapper {
-  flex-shrink: 0;
-}
-
-.emptyMessage {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: #64748b;
-  font-style: italic;
+/* Input number - lớn hơn */
+.filterOptions input[type="number"] {
+  width: 4.2rem;
+  height: 2.4rem;
   font-size: 1.1rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0 0.5rem;
+  margin: 0 0.4rem;
+}
+.panelchoicer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .cardHeader {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .kanjiValue {
-    font-size: 2.8rem;
-  }
-
-  .kanjiCard {
-    padding: 1.25rem;
-  }
-
-  .vocabItem {
-     flex-direction: row;
-    align-items: flex-start;
-    gap: 0.5rem;
-       border-left: 1px solid transparent;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  .vocabList {
-    display:block;
-  }
+.panelchoicer h3 ,.panelchoicer h4{
+  margin: 0;
+}
+section h4 {
+    margin: 0;
+}
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #666;
 }
 
-@media (max-width: 480px) {
-  .container {
-    padding: 1.5rem 1rem;
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.mainContent {
+     padding-top: 5rem; 
+}
+
+
+@media (max-width: 768px){
+  .container{
+    padding:0;
+
   }
 
-  .title {
-    font-size: 1.8rem;
+  .settingsPanel {
+    border-radius: 2.5rem;
+     scrollbar-width: none;
+
+         width: 85vw;
+    max-height: 40vh;
+  }
+  .navBrand{
+    font-size: 1rem;
+  }
+  .kanjiCard{
+             background-color: #000;
+             padding: 10px;
+  }
+  .label {
+  color: #ffffff;
+
+}
+
+  .cardField{
+        color: #fff;
+    grid-column: span 1;
   }
 
-  .kanjiValue {
-    font-size: 2.5rem;
-  }
-
-  .cardField {
-    gap: 0.3rem;
-  }
+  .kanjiBig, .kanjiCard h4 {
+  color: #ffffff;
+}
 }

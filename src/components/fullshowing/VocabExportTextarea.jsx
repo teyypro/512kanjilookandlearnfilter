@@ -48,7 +48,7 @@ function VocabExportTextarea({ filteredKanji, showOnlyLearnedVocab, learnedKanji
           onClick={() => setIsOpen(true)}
           disabled={exportText.trim() === ""}
         >
-          Xem / Copy từ vựng đã lọc (Textarea)
+          Xem / Copy từ vựng đã lọc
         </button>
       </div>
 
@@ -63,7 +63,7 @@ function VocabExportTextarea({ filteredKanji, showOnlyLearnedVocab, learnedKanji
 
             <div className={styles.controls}>
               <button onClick={copyToClipboard} className={styles.copyButton}>
-                Copy toàn bộ
+                CopyAll
               </button>
             </div>
 

@@ -1,12 +1,14 @@
-// Lesson.jsx
 import { useParams } from "react-router-dom";
-import { useMemo } from "react";
-import AudioSpeech from "./AudioSpeech";
+import { useMemo, useRef, useContext } from "react";
+import { VoiceContext } from "./GetVoicesList"; // điều chỉnh đường dẫn nếu cần
 import styles from './Lesson.module.css';
 
 function Lesson({ kanji_info }) {
   const { num } = useParams();
   const lessonNumber = parseInt(num, 10);
+  const { speech } = useContext(VoiceContext);
+
+  const kanjiRefs = useRef({});
 
   if (isNaN(lessonNumber) || lessonNumber < 1) {
     return <div className={styles.lessonContainer}>Lesson không hợp lệ: {lessonNumber}</div>;
@@ -27,56 +29,128 @@ function Lesson({ kanji_info }) {
     );
   }
 
+  const speak = (textToSpeak, lang = "ja-JP") => {
+    if (!textToSpeak) return;
+    if (!speech?.voice) {
+      console.warn("Không có giọng nói được chọn");
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.voice = speech.voice;
+    utterance.rate = speech.rate ?? 1;
+    utterance.pitch = speech.pitch ?? 1;
+    utterance.volume = speech.volume ?? 1;
+    utterance.lang = lang;
+
+    speechSynthesis.speak(utterance);
+  };
+
   return (
     <div className={styles.lessonContainer}>
-      <h1 className={styles.lessonTitle}>🔥Lesson {lessonNumber}</h1>
+      {/* Panel fixed danh sách kanji nhanh */}
+      <div className={styles.kanjiQuickNav}>
+
+        <div className={styles.kanjiList}>
+          {kanjisInLesson.map((kanji, index) => (
+            <button
+              key={kanji.kanji || index}
+              className={styles.kanjiQuickBtn}
+              onClick={() => {
+                const ref = kanjiRefs.current[kanji.kanji || index];
+                if (ref) {
+                  ref.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+              }}
+            >
+              {kanji.kanji}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <h1 className={styles.lessonTitle}>Lesson {lessonNumber}</h1>
       <p className={styles.totalKanji}>
         Tổng cộng {kanjisInLesson.length} kanji trong lesson này
       </p>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Kanji</th>
-            <th>Hán Việt</th>
-            <th>Mô tả</th>
-            <th>Từ vựng</th>
-          </tr>
-        </thead>
-        <tbody>
-          {kanjisInLesson.map((kanji, index) => (
-            <tr key={kanji.kanji || index}>
-              <td className={styles.kanjiCell} data-label="Kanji">
-                {kanji.kanji}
-              </td>
-              <td className={styles.hanvietCell} data-label="Hán Việt">
-                {kanji.hanViet || "—"}
-              </td>
-              <td className={styles.descriptionCell} data-label="Mô tả">
-                {kanji.description || "—"}
-              </td>
-              <td className={styles.vocabCell} data-label="Từ vựng">
-                {kanji.vocabs?.length > 0 ? (
-                  <ul>
-                    {kanji.vocabs.map((v, i) => (
-                      <li key={i}>
-                        <div className={styles.vocabText}>{v.vocab}</div>
-                        <div className={styles.vocabDetails}>
-                          ({v.hiragana}, {v.romaji})
-                        </div>
-                        <div className={styles.vocabMeaning}>{v.meaning}</div>
-                        <AudioSpeech text={v.hiragana} className={styles.audioBtn} />
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  "—"
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.kanjiGrid}>
+        {kanjisInLesson.map((kanji, index) => (
+          <div
+            key={kanji.kanji || index}
+            ref={(el) => (kanjiRefs.current[kanji.kanji || index] = el)}
+            id={`kanji-${kanji.kanji || index}`}
+            className={styles.kanjiCard}
+          >
+            <div className={styles.kanjiHeader}>
+              <h2 className={styles.kanjiChar}>{kanji.kanji}</h2>
+              <p className={styles.hanViet}>{kanji.hanViet || "—"}</p>
+            </div>
+
+            <div className={styles.metaInfo}>
+              <div className={styles.metaItem}>
+                <span className={styles.metaLabel}>Bộ thủ:</span>
+                <span>{kanji.radical || "—"}</span>
+              </div>
+              <div className={styles.metaItem}>
+                <span className={styles.metaLabel}>Số nét:</span>
+                <span>{kanji.stroke || "—"}</span>
+              </div>
+            </div>
+
+            {kanji.description && (
+              <p className={styles.description}>{kanji.description}</p>
+            )}
+
+            <div className={styles.vocabSection}>
+              <h3 className={styles.vocabTitle}>Từ vựng</h3>
+              {kanji.vocabs?.length > 0 ? (
+                <ul className={styles.vocabList}>
+                  {kanji.vocabs.map((v, i) => (
+                    <li
+                      key={i}
+                      className={styles.vocabItem}
+                      onClick={() => speak(v.hiragana)}
+                      role="button"
+                      tabIndex={0}
+                      title="Nhấn để nghe hiragana"
+                    >
+                      <div className={styles.vocabText}>{v.vocab}</div>
+                      <div className={styles.vocabDetails}>
+                        ({v.hiragana}, {v.romaji})
+                      </div>
+                      <div className={styles.vocabMeaning}>{v.meaning}</div>
+
+                      {v.samples?.length > 0 && (
+                        <ul className={styles.sampleList}>
+                          {v.samples.map((s, sIdx) => (
+                            <li
+                              key={sIdx}
+                              className={styles.sampleItem}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                speak(s.jp);
+                              }}
+                              role="button"
+                              tabIndex={0}
+                              title="Nhấn để nghe câu ví dụ"
+                            >
+                              <div className={styles.jpExample}>{s.jp}</div>
+                              <div className={styles.vnExample}>{s.vn}</div>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className={styles.noData}>Chưa có từ vựng</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

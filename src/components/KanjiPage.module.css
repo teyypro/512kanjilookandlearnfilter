@@ -1,235 +1,54 @@
-/* src/pages/KanjiPage.module.css */
+/* KanjiPage.module.css - Chỉ nền trắng + chữ/viền đen */
 
 .kanjiContainer {
-  width:80%;
-  margin: 0 auto;
+  width: 80%;
+  max-width: 960px;
+  margin: 80px auto 60px auto;
   padding: 24px 16px;
   font-family: system-ui, -apple-system, sans-serif;
-  color: #1e293b;
+  color: #000000;
+  background: #ffffff;
 }
 
-.mainTitle {
-  font-size: 4.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin: 0 0 8px;
-  color: #0f172a;
-  line-height: 1;
-}
-
-.hanviet {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #176782;
-  margin: 0 0 32px;
-  font-weight: 500;
-}
-
-/* Card-based sections */
-.strokeSection,
-.readingSection,
-.vocabSection {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  padding: 28px;
-  margin-bottom: 32px;
-  transition: transform 0.3s ease;
-}
-
-.strokeSection:hover,
-.readingSection:hover,
-.vocabSection:hover {
-  transform: translateY(-4px);
-}
-
-.sectionTitle {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #176782;
-  margin: 0 0 20px;
-  border-bottom: 3px solid #e2f0f9;
-  padding-bottom: 12px;
-}
-
-/* Stroke container */
-.strokeContainer {
-  display: flex;
-  justify-content: center;
-}
-
-/* Description */
-.description {
-  background: #f0f9ff;
-  border-left: 5px solid #176782;
-  padding: 20px 24px;
-  border-radius: 0 12px 12px 0;
-  margin: 24px 0;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #334155;
-}
-
-/* Reading */
-.readingSection .reading {
-  font-size: 1.4rem;
-  background: #f8fafc;
-  padding: 16px 20px;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-}
-
-.label {
-  font-weight: 600;
-  color: #176782;
-  margin-right: 12px;
-}
-
-small {
-  color: #64748b;
-  font-size: 0.95rem;
-}
-
-/* Vocabulary */
-.vocabList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 16px;
-}
-
-.vocabItem {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 18px 20px;
-    transition: all 0.25s ease;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    column-gap: 5rem;
-    justify-content: space-between;
-}
-
-.vocabItem:hover {
-  border-color: #176782;
-  box-shadow: 0 4px 14px rgba(23, 103, 130, 0.12);
-  transform: translateY(-2px);
-}
-
-.vocabText {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 6px;
-}
-
-.vocabDetails {
-  color: #64748b;
-  font-size: 1rem;
-  margin-bottom: 8px;
-}
-
-.vocabMeaning {
-  font-size: 1.1rem;
-  line-height: 1.5;
-  color: #334155;
-}
-
-.audioWrapper {
-  margin-top: 12px;
-}
-
-/* No data */
-.noData {
-  text-align: center;
-  color: #64748b;
-  font-style: italic;
-  padding: 40px 0;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .kanjiContainer {
-    padding: 16px;
-  }
-
-  .mainTitle {
-    font-size: 3.8rem;
-  }
-
-  .hanviet {
-    font-size: 1.4rem;
-  }
-
-  .sectionTitle {
-    font-size: 1.5rem;
-  }
-
-  .strokeSection,
-  .readingSection,
-  .vocabSection {
-    padding: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .mainTitle {
-    font-size: 3.2rem;
-  }
-
-  .hanviet {
-    font-size: 1.3rem;
-  }
-
-  .sectionTitle {
-    font-size: 1.4rem;
-  }
-}
-
-/* Thanh navigate fixed */
+/* Thanh nav fixed */
 .topNav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3rem;
-    background: #000000;
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 0 20px 0 10px;
-    z-index: 1000;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3rem;
+  background: #000000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0 10px;
+  z-index: 1000;
 }
 
 .backBtn {
-    background: none;
-    border: none;
-    color: #e2e8f0;
-    font-size: 2rem;
-    cursor: pointer;
-    padding: 0 20px 0 0;
-    line-height: 1;
-    transition: opacity 0.2s;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0 20px 0 0;
+  line-height: 1;
 }
 
 .backBtn:hover {
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 .navTitle {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    font-size: 1.45rem;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    align-items: center;
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 1.45rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .kanjiTitle {
@@ -239,7 +58,7 @@ small {
 
 .separator {
   margin: 0 10px;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .hanvietTitle {
@@ -247,27 +66,268 @@ small {
   font-weight: 500;
 }
 
-/* Đẩy nội dung chính xuống để không bị che */
-.kanjiContainer {
-  margin-top: 80px;  /* <-- quan trọng: đẩy xuống đủ chỗ cho thanh nav */
-  /* Các thuộc tính cũ vẫn giữ nguyên */
-  width: 80%;
-  margin: 80px auto 40px auto; /* sửa lại margin-top thành 80px */
-  padding: 24px 16px;
-  font-family: system-ui, -apple-system, sans-serif;
-  color: #1e293b;
+/* Thông tin cơ bản */
+.basicInfo {
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 28px;
+  margin-bottom: 32px;
+  text-align: center;
 }
 
-/* Responsive cho thanh nav */
+.kanjiMain {
+  margin-bottom: 24px;
+}
+
+.kanjiChar {
+  font-size: 6.5rem;
+  font-weight: 900;
+  line-height: 1;
+  margin: 0;
+  color: #000000;
+}
+
+.hanVietMain {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin: 12px 0 0 0;
+  color: #000000;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.metaItem {
+  padding: 16px;
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+.metaLabel {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 6px;
+}
+
+.metaValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Sections chung */
+.strokeSection,
+.readingSection,
+.vocabSection {
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #000000;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #000000;
+}
+
+/* Stroke */
+.strokeContainer {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+/* Description */
+.descriptionBox {
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-left-width: 6px;
+  padding: 20px 24px;
+  margin: 24px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.description {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #000000;
+}
+
+/* Reading */
+.readingList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.readingItem {
+  font-size: 1.4rem;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 6px;
+}
+
+.label {
+  font-weight: 700;
+  margin-right: 12px;
+  color: #000000;
+}
+
+small {
+  color: #000000;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* Vocabulary */
+.vocabList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.vocabItem {
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 24px;
+  
+}
+
+.vocabItem:active{
+box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 0px 3px;
+}
+
+
+
+.vocabHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.vocabText {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #000000;
+}
+
+.vocabDetails {
+  font-size: 1.15rem;
+  color: #000000;
+  opacity: 0.9;
+}
+
+.vocabMeaning {
+  font-size: 1.2rem;
+  margin: 12px 0 20px 0;
+  color: #000000;
+}
+
+.audioWrapper {
+  margin: 16px 0;
+}
+
+/* Samples */
+.samples {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #000000;
+}
+
+.sampleTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 14px 0;
+  color: #000000;
+}
+
+.sampleList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sampleItem {
+  padding: 14px;
+  border: 1px dashed #000000;
+  border-radius: 6px;
+
+}
+
+.sampleItem:active{
+box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+scale: 1.05;
+color:white;
+}
+
+.jpExample {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #000000;
+}
+
+.vnExample {
+  font-size: 1.1rem;
+  color: #000000;
+}
+
+/* No data */
+.noData {
+  text-align: center;
+  padding: 48px 0;
+  font-style: italic;
+  color: #000000;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
+  .kanjiContainer {
+    width: 94%;
+    margin: 76px auto 40px auto;
+    padding: 16px;
+  }
+
+  .kanjiChar {
+    font-size: 5rem;
+  }
+
+  .hanVietMain {
+    font-size: 2rem;
+  }
+
+  .metaGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .topNav {
     height: 60px;
     padding: 0 16px;
-  }
-
-  .backBtn {
-    font-size: 2.2rem;
-    padding: 0 16px 0 0;
   }
 
   .kanjiTitle {
@@ -277,35 +337,27 @@ small {
   .hanvietTitle {
     font-size: 1.3rem;
   }
-
-  .navTitle {
-    font-size: 1.3rem;
-  }
-
-  .kanjiContainer {
-    margin-top: 76px; /* điều chỉnh nhẹ cho mobile */
-  }
 }
 
 @media (max-width: 480px) {
-  .topNav {
-    height: 56px;
-  }
-
-  .backBtn {
-    font-size: 2rem;
-    padding: 0 12px 0 0;
-  }
-
-  .kanjiTitle {
-    font-size: 1.7rem;
-  }
-
-  .hanvietTitle {
-    font-size: 1.2rem;
-  }
-
   .kanjiContainer {
     margin-top: 72px;
+  }
+
+  .kanjiChar {
+    font-size: 4.2rem;
+  }
+
+  .hanVietMain {
+    font-size: 1.8rem;
+  }
+
+  .vocabHeader {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .topNav {
+    height: 56px;
   }
 }

@@ -1,10 +1,9 @@
 // src/pages/SettingsPage.jsx
 import React, { useContext, useState } from 'react';
-import './SettingsPage.css'; // Import file CSS riêng
+import './SettingsPage.css';
 import { VoiceContext } from '../GetVoicesList';
 import AudioSpeech from '../AudioSpeech';
 
-// Component Voice & TTS Settings
 function VoiceSettings() {
   const { voices, speech, setSpeech } = useContext(VoiceContext);
 
@@ -13,18 +12,18 @@ function VoiceSettings() {
       <h2>Voice & TTS Settings</h2>
       <p>Chọn giọng nói, tốc độ, cao độ và âm lượng cho phần phát âm.</p>
 
-      {/* Dropdown chọn voice */}
       <div className="setting-item">
-        <label>Giọng nói:</label>
+        <label>Giọng nói</label>
         <select
-          value={speech.voice?.name || ""}
+          value={speech.voice?.name || ''}
           onChange={(e) =>
             setSpeech((s) => ({
               ...s,
-              voice: voices.find((v) => v.name === e.target.value),
+              voice: voices.find((v) => v.name === e.target.value) || null,
             }))
           }
         >
+          <option value="" disabled>Chọn giọng nói</option>
           {voices.map((v) => (
             <option key={v.name} value={v.name}>
               {v.name} ({v.lang})
@@ -33,108 +32,98 @@ function VoiceSettings() {
         </select>
       </div>
 
-      {/* Rate slider */}
       <div className="setting-item">
-        <label>Tốc độ nói: <span>{speech.rate}x</span></label>
+        <label>Tốc độ nói: {speech.rate.toFixed(1)}×</label>
         <input
           type="range"
           min="0.5"
           max="2"
           step="0.1"
           value={speech.rate}
-          onChange={(e) =>
-            setSpeech((s) => ({ ...s, rate: parseFloat(e.target.value) }))
-          }
+          onChange={(e) => setSpeech((s) => ({ ...s, rate: Number(e.target.value) }))}
         />
       </div>
 
-      {/* Pitch slider */}
       <div className="setting-item">
-        <label>Cao độ: <span>{speech.pitch}</span></label>
+        <label>Cao độ: {speech.pitch.toFixed(1)}</label>
         <input
           type="range"
           min="0"
           max="2"
           step="0.1"
           value={speech.pitch}
-          onChange={(e) =>
-            setSpeech((s) => ({ ...s, pitch: parseFloat(e.target.value) }))
-          }
+          onChange={(e) => setSpeech((s) => ({ ...s, pitch: Number(e.target.value) }))}
         />
       </div>
 
-      {/* Volume slider */}
       <div className="setting-item">
-        <label>Âm lượng: <span>{speech.volume}</span></label>
+        <label>Âm lượng: {speech.volume.toFixed(1)}</label>
         <input
           type="range"
           min="0"
           max="1"
           step="0.1"
           value={speech.volume}
-          onChange={(e) =>
-            setSpeech((s) => ({ ...s, volume: parseFloat(e.target.value) }))
-          }
+          onChange={(e) => setSpeech((s) => ({ ...s, volume: Number(e.target.value) }))}
         />
       </div>
 
-      {/* Test voice */}
       <div className="test-voice">
-        <h3>Thử giọng nói: 「試験、頑張ってね！」</h3>
-        <AudioSpeech text={"「試験、頑張ってね！」"} />
+        <h3>Thử giọng nói</h3>
+        <p>「試験、頑張ってね！」</p>
+        <AudioSpeech text="「試験、頑張ってね！」" />
       </div>
     </div>
   );
 }
 
-// Component About
 function AboutSettings() {
   return (
     <div className="settings-section">
       <h2>About</h2>
-      <p>512 Kanji Look and Learn N4 N5</p>
 
       <div className="about-info">
-        <h3>Phiên bản</h3>
-        <p>🔥🎯🫦🫦🎤💐😏🌍</p>
+        <div className="info-row">
+          <h3>Ứng dụng</h3>
+          <p>512 Kanji Look and Learn N4 N5</p>
+        </div>
 
-        <h3>Tác giả</h3>
-        <p>Phát triển bởi TeyyPro - 20/01/2026</p>
+        <div className="info-row">
+          <h3>Phiên bản</h3>
+          <p>1.0.0 (2026)</p>
+        </div>
 
-        <h3>Liên hệ</h3>
-        <p>Sđt: 0973884347</p>
-        <p>GitHub: github.com/bí nặng mật</p>
+        <div className="info-row">
+          <h3>Tác giả</h3>
+          <p>Phát triển bởi TeyyPro</p>
+          <p>Ngày bắt đầu: 20/01/2026</p>
+        </div>
 
-        <h3>Cảm ơn</h3>
-        <p>Hãy trả mìn 40k để loáy đc full data quyển sách 512 Kanji Look And Learn🌸</p>
+        <div className="info-row">
+          <h3>Liên hệ</h3>
+          <p>SĐT: 0973 884 347</p>
+          <p>GitHub: github.com/[tên-repo]</p>
+        </div>
+
+        <div className="info-row">
+          <h3>Hỗ trợ tác giả</h3>
+          <p>ủng hộ 40k để mở full data 512 Kanji Look and Learn</p>
+        </div>
       </div>
     </div>
   );
 }
 
-function SettingsPage() {
-  const [activeTab, setActiveTab] = useState('voice'); // Tab mặc định là Voice & TTS
+export default function SettingsPage() {
+  const [activeTab, setActiveTab] = useState('voice');
 
   const menuItems = [
     { id: 'voice', label: 'Voice & TTS', icon: '🎤' },
     { id: 'about', label: 'About', icon: 'ℹ️' },
   ];
 
-  // Render nội dung dựa trên tab đang chọn
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'voice':
-        return <VoiceSettings />;
-      case 'about':
-        return <AboutSettings />;
-      default:
-        return <VoiceSettings />;
-    }
-  };
-
   return (
     <div className="settings-page">
-      {/* Sidebar bên trái */}
       <aside className="sidebar">
         <h1>Settings</h1>
         <ul className="menu">
@@ -151,12 +140,10 @@ function SettingsPage() {
         </ul>
       </aside>
 
-      {/* Nội dung bên phải */}
       <main className="content">
-        {renderContent()}
+        {activeTab === 'voice' && <VoiceSettings />}
+        {activeTab === 'about' && <AboutSettings />}
       </main>
     </div>
   );
 }
-
-export default SettingsPage;

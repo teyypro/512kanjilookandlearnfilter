@@ -26,7 +26,7 @@ function App(){
       });
 
     //fetch data for eachPage
-    fetch("full_kanji_data.json")
+    fetch("kanjiData.json")
       .then((res) => res.json())
       .then((data) => {
         setKanji(data);
