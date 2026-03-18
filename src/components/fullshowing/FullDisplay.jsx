@@ -90,6 +90,9 @@ function FullDisplay({ kanji_info, kanji_list }) {
   const [currentReadIndex, setCurrentReadIndex] = useState(0);
   const allVocabsRef = useRef([]);
 
+  // Ref cho quick nav scroll đến kanji card
+  const kanjiRefs = useRef({});
+
   const SpeakOut = (text) => {
     if (!text || !speech?.voice) return;
     const utter = new SpeechSynthesisUtterance(text);
@@ -144,7 +147,61 @@ function FullDisplay({ kanji_info, kanji_list }) {
       {/* Sticky Header */}
       <header className={styles.nav}>
         <h1 className={styles.navBrand}>512 Kanji Look&Learn Filter</h1>
+   {/* Quick nav kanji fixed - giống Lesson */}
+      {/* Quick nav fixed - Kanji + Từ vựng */}
+      {filteredKanji.length > 0 && (
+        <div className={styles.kanjiQuickNav}>
+         
+            {filteredKanji.map((kanji, kanjiIdx) => {
+              const displayedVocabs = showOnlyLearnedVocab
+                ? (kanji.vocabs || []).filter((v) => isVocabFullyLearned(v.vocab))
+                : (kanji.vocabs || []);
 
+              const kanjiKey = kanji.kanji || `k${kanjiIdx}`;
+
+              return (
+                <div key={kanjiKey} className={styles.quickGroup}>
+                  {/* Kanji chính */}
+                  <button
+                    className={styles.quickKanjiBtn}
+                    onClick={() => {
+                      const ref = kanjiRefs.current[kanjiKey];
+                      ref?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                    title={`Scroll đến kanji ${kanji.kanji || "—"}`}
+                  >
+                    {kanji.kanji || "—"}
+                  </button>
+
+                  {/* Từ vựng thuộc kanji này */}
+                  {displayedVocabs.length > 0 && (
+                    <div className={styles.quickVocabs}>
+                      {displayedVocabs.map((v, vIdx) => {
+                        const globalIndex = allVocabsRef.current.indexOf(v);
+                        if (globalIndex === -1) return null;
+
+                        return (
+                          <div
+                            key={vIdx}
+                            className={styles.quickVocabItem}
+                            onClick={() => {
+                              const elem = document.getElementById(`voca_no_${globalIndex}`);
+                              elem?.scrollIntoView({ behavior: "smooth", block: "center" });
+                            }}
+                            title={`${v.vocab} • ${v.hiragana || ""}`}
+                          >
+                            {v.vocab}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+   
+      )}
         <div className={styles.headerControls}>
           <button
             className={`${styles.settingsBtn} ${showSettingsPanel ? styles.active : ""}`}
@@ -168,127 +225,134 @@ function FullDisplay({ kanji_info, kanji_list }) {
         </div>
       </header>
 
+   
+
       {/* Settings Drawer */}
-  
-        {/* // <div className={styles.settingsOverlay} onClick={() => setShowSettingsPanel(false)}> */}
-          <div className={styles.settingsPanel} onClick={(e) => e.stopPropagation()} style={{ 
-            transform: `translate(-50%,${showSettingsPanel ? "0" : "200%"})`,
-            scale: `${showSettingsPanel ? "1" : "0.5"}` }}>
-            <div className={styles.panelchoicer}>
-              <h3>Cài đặt</h3>
-              <button className={styles.closeBtn} onClick={() => setShowSettingsPanel(false)}>
-                ×
-              </button>
+      <div
+        className={styles.settingsPanel}
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          transform: `translate(-50%,${showSettingsPanel ? "0" : "200%"})`,
+          scale: `${showSettingsPanel ? "1" : "0.5"}`,
+        }}
+      >
+        <div className={styles.panelchoicer}>
+          <h3>Cài đặt</h3>
+          <button className={styles.closeBtn} onClick={() => setShowSettingsPanel(false)}>
+            ×
+          </button>
+        </div>
+
+        {/* Lọc bài học */}
+        <section className={styles.section}>
+          <h4>Lọc bài học</h4>
+          <div className={styles.filterOptions}>
+            <label>
+              <input
+                type="radio"
+                name="filterMode"
+                value="all"
+                checked={filterMode === "all"}
+                onChange={() => setFilterMode("all")}
+              />
+              Tất cả
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="filterMode"
+                value="range"
+                checked={filterMode === "range"}
+                onChange={() => setFilterMode("range")}
+              />
+              Từ bài
+              <input
+                type="number"
+                min={1}
+                max={totalLessons}
+                value={startLesson}
+                onChange={(e) => setStartLesson(Math.max(1, Number(e.target.value) || 1))}
+              />
+              đến
+              <input
+                type="number"
+                min={1}
+                max={totalLessons}
+                value={endLesson}
+                onChange={(e) => setEndLesson(Math.min(totalLessons, Number(e.target.value) || totalLessons))}
+              />
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="filterMode"
+                value="custom"
+                checked={filterMode === "custom"}
+                onChange={() => setFilterMode("custom")}
+              />
+              Chọn bài
+            </label>
+          </div>
+
+          {filterMode === "custom" && (
+            <div className={styles.customGrid}>
+              {Array.from({ length: totalLessons }, (_, i) => i + 1).map((n) => (
+                <label key={n}>
+                  <input
+                    type="checkbox"
+                    checked={selectedLessons.includes(n)}
+                    onChange={(e) =>
+                      setSelectedLessons((prev) =>
+                        e.target.checked ? [...prev, n] : prev.filter((x) => x !== n)
+                      )
+                    }
+                  />
+                  {n}
+                </label>
+              ))}
             </div>
+          )}
+        </section>
 
-            {/* Lọc bài học */}
-            <section className={styles.section}>
-              <h4>Lọc bài học</h4>
-              <div className={styles.filterOptions}>
-                <label>
-                  <input
-                    type="radio"
-                    name="filterMode"
-                    value="all"
-                    checked={filterMode === "all"}
-                    onChange={() => setFilterMode("all")}
-                  />
-                  Tất cả
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="filterMode"
-                    value="range"
-                    checked={filterMode === "range"}
-                    onChange={() => setFilterMode("range")}
-                  />
-                  Từ bài
-                  <input
-                    type="number"
-                    min={1}
-                    max={totalLessons}
-                    value={startLesson}
-                    onChange={(e) => setStartLesson(Math.max(1, Number(e.target.value) || 1))}
-                  />
-                  đến
-                  <input
-                    type="number"
-                    min={1}
-                    max={totalLessons}
-                    value={endLesson}
-                    onChange={(e) => setEndLesson(Math.min(totalLessons, Number(e.target.value) || totalLessons))}
-                  />
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="filterMode"
-                    value="custom"
-                    checked={filterMode === "custom"}
-                    onChange={() => setFilterMode("custom")}
-                  />
-                  Chọn bài
-                </label>
-              </div>
+        {/* Tùy chọn hiển thị */}
+        <section className={styles.section}>
+          <label className={styles.checkboxLabel}>
+            <input
+              type="checkbox"
+              checked={showOnlyLearnedVocab}
+              onChange={(e) => setShowOnlyLearnedVocab(e.target.checked)}
+            />
+            Chỉ hiện từ vựng đã học hết Kanji
+          </label>
 
-              {filterMode === "custom" && (
-                <div className={styles.customGrid}>
-                  {Array.from({ length: totalLessons }, (_, i) => i + 1).map((n) => (
-                    <label key={n}>
-                      <input
-                        type="checkbox"
-                        checked={selectedLessons.includes(n)}
-                        onChange={(e) =>
-                          setSelectedLessons((prev) =>
-                            e.target.checked ? [...prev, n] : prev.filter((x) => x !== n)
-                          )
-                        }
-                      />
-                      {n}
-                    </label>
-                  ))}
-                </div>
-              )}
-            </section>
+          <VocabExportTextarea
+            filteredKanji={filteredKanji}
+            showOnlyLearnedVocab={showOnlyLearnedVocab}
+            learnedKanjiSet={learnedKanjiSet}
+          />
+        </section>
 
-            {/* Tùy chọn hiển thị */}
-            <section className={styles.section}>
-              <label className={styles.checkboxLabel}>
+        {/* Hiện/Ẩn cột */}
+        <section className={styles.section}>
+          <h4>Hiện/Ẩn cột</h4>
+          <div className={styles.columnToggles}>
+            {Object.keys(visibleColumns).map((col) => (
+              <label key={col} className={styles.checkboxLabel}>
                 <input
                   type="checkbox"
-                  checked={showOnlyLearnedVocab}
-                  onChange={(e) => setShowOnlyLearnedVocab(e.target.checked)}
+                  checked={visibleColumns[col]}
+                  onChange={() => toggleColumn(col)}
                 />
-                Chỉ hiện từ vựng đã học hết Kanji
+                {col === "stt"
+                  ? "STT"
+                  : col === "hanViet"
+                  ? "Hán Việt"
+                  : col.charAt(0).toUpperCase() + col.slice(1)}
               </label>
-
-              <VocabExportTextarea
-                filteredKanji={filteredKanji}
-                showOnlyLearnedVocab={showOnlyLearnedVocab}
-                learnedKanjiSet={learnedKanjiSet}
-              />
-            </section>
-
-            {/* Hiện/Ẩn cột */}
-            <section className={styles.section}>
-              <h4>Hiện/Ẩn cột</h4>
-              <div className={styles.columnToggles}>
-                {Object.keys(visibleColumns).map((col) => (
-                  <label key={col} className={styles.checkboxLabel}>
-                    <input
-                      type="checkbox"
-                      checked={visibleColumns[col]}
-                      onChange={() => toggleColumn(col)}
-                    />
-                    {col === "stt" ? "STT" : col === "hanViet" ? "Hán Việt" : col.charAt(0).toUpperCase() + col.slice(1)}
-                  </label>
-                ))}
-              </div>
-            </section>
+            ))}
           </div>
-        {/* // </div> */}
-
+        </section>
+      </div>
 
       {/* Nội dung chính */}
       <main className={styles.mainContent}>
@@ -302,7 +366,15 @@ function FullDisplay({ kanji_info, kanji_list }) {
                 : (kanji.vocabs || []);
 
               return (
-                <div key={kanji.kanji || idx} className={styles.kanjiCard}>
+                <div
+                  key={kanji.kanji || idx}
+                  ref={(el) => {
+                    if (el) {
+                      kanjiRefs.current[kanji.kanji || idx] = el;
+                    }
+                  }}
+                  className={styles.kanjiCard}
+                >
                   <div className={styles.cardHeader}>
                     {visibleColumns.stt && (
                       <div className={styles.cardField}>
@@ -384,7 +456,15 @@ function FullDisplay({ kanji_info, kanji_list }) {
                                 id={`voca_no_${globalIndex}`}
                                 className={`${styles.vocabItem} ${isActive ? styles.activeFocus : ""}`}
                                 onClick={() => {
-                                  SpeakOut(v.hiragana +","+ (v.samples?.[0]?.jp || "") +","+ (v.samples?.[1]?.jp || "") +","+ (v.samples?.[2]?.jp || ""));
+                                  SpeakOut(
+                                    v.hiragana +
+                                      "," +
+                                      (v.samples?.[0]?.jp || "") +
+                                      "," +
+                                      (v.samples?.[1]?.jp || "") +
+                                      "," +
+                                      (v.samples?.[2]?.jp || "")
+                                  );
                                   setCurrentReadIndex(globalIndex);
                                 }}
                               >

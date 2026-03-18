@@ -39,7 +39,7 @@ function Home({ kanji_list }) {
 
       {/* Phần jump board - chỉ hiện khi showJump = true */}
    
-        <div className={styles.lessonJumpContainer} style={{ bottom: `${showJump ? "0" : "-20%"}` }}>
+        <div className={styles.lessonJumpContainer} style={{ bottom: `${showJump ? "0" : "-50vh"}` }}>
           <div className={styles.lessonButtons}>
             {kanji_list.map((group, group_index) => {
               const lessonNum = group_index + 1;

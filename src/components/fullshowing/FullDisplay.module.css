@@ -67,7 +67,6 @@
 
 .kanjiCard {
   background: white;
-  border: 1px solid #e0e0e0;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
@@ -224,6 +223,7 @@ box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     padding: 0.5rem 0.5rem;
+    height:5vh;
     display: flex;
     align-items: center;
     border-bottom: 1px solid #e2e8f0;
@@ -280,7 +280,7 @@ box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -
 
 
 .settingsPanel {
-    width: 50vw;
+    width: 70vw;
     max-width: 90vw;
     height: fit-content;
     position: fixed;
@@ -407,4 +407,175 @@ section h4 {
   .kanjiBig, .kanjiCard h4 {
   color: #ffffff;
 }
+}
+
+/* Quick nav kanji fixed - giống Lesson */
+.kanjiQuickNav {
+    position: relative;
+    height: 2rem;
+    width: fit-content;
+    background: transparent;
+    border-radius: 0.5rem;
+    z-index: 85;
+    overflow-y: auto;
+    padding: 0.5rem;
+    margin: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    transition: 0.2s;
+}
+.kanjiQuickNav:hover {
+  height: 10rem;
+      box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+.kanjiQuickNav:active {
+  height: 90vh;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.kanjiList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.kanjiQuickBtn {
+    position: fixed;
+    transform: translate(-50%);
+    left: 50%;
+    /* left: 1rem; */
+    /* right: 1rem; */
+    height: 10rem;
+    bottom: 20px;
+    background: rgba(30, 30, 45, 0.92);
+    border-radius: 12px;
+    border: 1px solid #444466;
+    z-index: 85;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    padding: 12px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.kanjiQuickBtn:hover {
+  background: rgba(100, 80, 40, 0.9);
+  transform: scale(1.12);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.kanjiQuickBtn:active {
+  transform: scale(0.95);
+}
+
+/* Scrollbar đẹp hơn (tùy chọn) */
+.kanjiQuickNav::-webkit-scrollbar {
+  width: 0;
+}
+
+
+.quickVocabs{
+       display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.quickGroup{
+    display: flex;
+    padding: 0.3rem;
+    align-items: center;
+    transition: 0.2s;
+    border-radius: 0.8rem;
+}
+.quickGroup:hover {
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+}
+ 
+.quickGroup button {
+    font-size: 1.3rem;
+    aspect-ratio: 1/1;
+    width: fit-content;
+    background-color: transparent;
+    border: 0;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+    color: #000;
+    font-weight: bold;
+    align-items: center;
+    cursor: pointer;
+    font-family: Yu Gothic;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  }
+
+.quickVocabItem{
+    white-space: nowrap;
+    /* background-color: #ffffff; */
+    color: #000000;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    display: inline-flex;
+    transition: 0.1s;
+    font-family: Yu Gothic;
+    border-radius: 0.5rem;
+}
+
+.quickVocabItem:hover {
+    scale: 1.25;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+@media (max-width: 480px) {
+   .kanjiQuickNav {  
+    position: relative;
+    top: 0;
+    left: -0.5rem;
+    height: 100%;
+    width: fit-content;
+    margin: 0;
+    margin-right: 0.5rem;
+    
+    background: transparent;
+    border-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 85;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: row;
+    transition: none;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 0.5rem;
+    box-shadow: none;
+  }
+  .kanjiQuickNav:hover {
+    height: 100%;
+box-shadow: none;
+  }
+  .kanjiQuickNav:active {
+        height: 100%;
+box-shadow: none;
+  }
+.quickVocabItem:hover{
+  background-color: #000;
+  color:#fff;
+}
+  .quickVocabs {
+        display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    flex-direction: row;
+  }
+    .kanjiQuickNav::-webkit-scrollbar {
+    height: 0;                       /* ẩn scrollbar ngang nếu có */
+  }
+  .navBrand{
+    display:none;
+  }
 }
