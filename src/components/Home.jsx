@@ -19,6 +19,9 @@ function Home({ kanji_list }) {
         </Link>
 
         <div className={styles.fabContainer}>
+          <Link to="/searching" className={`${styles.fab}`}>
+            🔍
+          </Link>
           <Link to="/setting" className={`${styles.fab} ${styles.fabSetting}`}>
             ⚙️
           </Link>

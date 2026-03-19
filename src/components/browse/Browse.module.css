@@ -1,0 +1,360 @@
+/* Browse.module.css - Phiên bản hiện đại, đồng bộ với danh sách chính */
+
+.container {
+  background: #ffffff;
+  color: #222222;
+  padding: 24px;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacOSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.searchSection {
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.searchBar {
+  display: flex;
+  align-items: stretch;
+  max-width: 680px;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.containBar {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.select {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 0 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1.1rem;
+  padding: 16px 20px;
+  background: transparent;
+  color: #111;
+}
+
+.input::placeholder {
+  color: #aaa;
+}
+
+.btnSearch {
+  background: #111111;
+  color: white;
+  border: none;
+  padding: 0 28px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnSearch:hover {
+  background: #222222;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+.status {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 1.1rem;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px dashed #ddd;
+}
+
+/* Card chung */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: all 0.2s ease;
+  border: 4px solid rgb(0, 0, 0);
+}
+
+.card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+    border: 4px solid transparent;
+  background: 
+    linear-gradient(white, white) padding-box,
+    linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%) border-box;
+}
+
+/* Kanji Card */
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.vocabTable {
+      width: 100%;
+    text-align: left;
+    font-family: yu gothic;
+        margin-top: 1rem;
+}
+.kanjiLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.bigKanji {
+  font-size: 4.2rem;
+  line-height: 1;
+  font-weight: 800;
+  color: #000;
+}
+
+.mainInfo {
+  flex: 1;
+}
+
+.mainInfo p {
+  margin: 0;
+}
+
+.hanviet {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: #111;
+}
+
+.subInfo {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.details p {
+  margin: 10px 0;
+  font-size: 1.05rem;
+}
+
+.details span {
+  font-weight: 600;
+  color: #333;
+  min-width: 80px;
+  display: inline-block;
+}
+
+/* Vocab Card */
+.vocabCard {
+  /* có thể thêm border-left hoặc accent color nếu muốn phân biệt */
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  /* background: 
+    linear-gradient(white, white) padding-box,
+    linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%) border-box; */
+}
+
+.vocabCard:hover {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.vocabMain {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.vocabWord {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.vocabWord:hover {
+  
+  scale:1.2;
+}
+
+.hiragana {
+  font-size: 1.25rem;
+  color: #d63384; /* hồng đậm giống danh sách chính */
+  opacity: 0.9;
+}
+
+.romaji {
+  font-size: 1rem;
+  color: #555;
+}
+
+.meaning {
+  font-size: 1.25rem;
+  color: #333;
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+.originLink {
+    display: inline-block;
+    color: #2563eb;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.originLink:hover {
+  opacity: 0.8;
+}
+
+/* Samples */
+.samples {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.samples ul {
+  list-style: none;
+  padding: 0;
+  margin: 2px 0 0;
+}
+
+.samples li {
+      padding: 10px 12px;
+    margin-bottom: 8px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.jpEx {
+  font-family: "Yu Gothic", "Meiryo", sans-serif;
+  font-weight: 500;
+  margin-right: 12px;
+  display: block;
+}
+
+.vnEx {
+  color: #000000;
+  opacity: 0.9;
+}
+
+/* Active focus (nếu tích hợp đọc to) */
+.activeFocus {
+  transform: scale(1.04);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+  border-color: #4f46e5;
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  z-index: 2;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .results {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .searchBar {
+    flex-direction: column;
+    border-radius: 10px;
+        display: flex;
+    align-items: stretch;
+    max-width: 680px;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    overflow: hidden;
+    border: 0;
+  }
+
+  .containBar {
+    flex-direction: row;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .select, .input {
+    padding: 14px 16px;
+    outline: 0;
+  }
+
+  .btnSearch {
+    padding: 14px;
+    border-radius: 0 0 10px 10px;
+  }
+
+  .results {
+    grid-template-columns: 1fr;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .bigKanji {
+    font-size: 3.5rem;
+  }
+
+  .vocabMain {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .vocabWord {
+    font-size: 1.7rem;
+  }
+.vocabCell:nth-child(1) {
+  width: 25%;
+  font-weight: 700;
+}
+
+.vocabCell:nth-child(2) {
+  width: 30%;
+  opacity: 0.8;
+}
+
+.vocabCell:nth-child(3) {
+  width: 45%;
+  font-weight: 500;
+}
+}
+
+@media (max-width: 480px) {
+  .searchSection {
+    margin-bottom: 24px;
+  }
+
+  .status {
+    padding: 40px 16px;
+  }
+}

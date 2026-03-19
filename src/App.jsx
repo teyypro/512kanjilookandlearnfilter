@@ -6,6 +6,7 @@ import Lesson from './components/Lesson';
 import GetVoicesList from './components/GetVoicesList';
 import SettingsPage from './components/setting/Setting';
 import FullDisplay from './components/fullshowing/FullDisplay';
+import Browse from './components/browse/Browse';
 
 
 
@@ -50,6 +51,7 @@ function App(){
         <Route path="full_showing" element = {<FullDisplay kanji_info = {kanji} kanji_list = {kanji_list}/>}/>
         {/* Catch-all route - đưa mọi đường dẫn không khớp về Home */}
         <Route path="*" element={<Home kanji_list={kanji_list} />} />
+        <Route path="searching" element = {<Browse kanji_list = {kanji}/>}/>
       </Routes>
       </GetVoicesList>
     </BrowserRouter>
